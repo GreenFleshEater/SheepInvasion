@@ -3,7 +3,7 @@ import java.io.*;
 // Filename of the map currently edited
 // If you insert a filename here it will be automatically loaded upon startup
 // Maybe you need to use \\ (not \) instead of / for Windows?
-String mapname="../gamedemo/demo.map";
+String mapname="../sheepinvasion/demo.map";
 // The map currently edited
 Map map;
 

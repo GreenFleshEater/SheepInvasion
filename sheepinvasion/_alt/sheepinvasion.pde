@@ -23,14 +23,15 @@ int gameState;
 PImage backgroundImg;
 
 void setup() {
-  size( 900, 700 );
+  size( 500, 500 );
+  backgroundImg = loadImage ("images/fire.jpg");
   restart();
   frameRate(24);
 }
 
 void restart () {
   map = new Map( "levelone.map");
-  /*for ( int x = 0; x < map.w; ++x ) {
+  for ( int x = 0; x < map.w; ++x ) {
     for ( int y = 0; y < map.h; ++y ) {
       if ( map.at(x, y) == 'S' ) {
         playerX = map.centerXOfTile (x);
@@ -42,7 +43,7 @@ void restart () {
         goalY = map.centerYOfTile (y);
       }
     }
-  }*/
+  }
   time=0;
   vx = 0;
   vy = 0;
@@ -163,17 +164,17 @@ void drawText() {
 
 void draw() {
   if (gameState==GAMERUNNING) {
-    //updatePlayer();
+    updatePlayer();
     time+=1/frameRate;
   }
   else if (keyPressed && key==' ') {
     if (gameState==GAMEWAIT) gameState=GAMERUNNING;
     else if (gameState==GAMEOVER || gameState==GAMEWON) restart();
   }
-  //screenLeftX = playerX - width/2;
-  //screenTopY  = (map.heightPixel() - height)/2;
+  screenLeftX = playerX - width/2;
+  screenTopY  = (map.heightPixel() - height)/2;
 
-  //drawBackground();
+  drawBackground();
   drawMap();
   drawPlayer();
   drawText();
