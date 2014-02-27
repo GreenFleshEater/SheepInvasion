@@ -150,6 +150,30 @@ void drawPlayer() {
   }
 }
 
+void drawButton_Tower () {
+  if (mouseX > 25 && mouseX < 25+200 && mouseY > 500 && mouseY < 500+50){
+    fill(#9b59b6);
+    rect(25, 700, 200, 50);
+
+    if (mousePressed==true){
+      //buyTower=true;
+      fill(#ffffff);
+      rect(25, 500, 200, 50);
+    }
+  }
+  else{
+    fill(#f1c40f);
+    rect(25, 500, 200, 50);
+  }
+  fill(#ffffff);
+  textSize(18);
+  textAlign(CENTER);
+  text("SchussTurm (15)", 200/2+25,500+33);
+}
+
+void mousePressed() {
+  setPixel (mouseX, mouseY,'G');
+}
 
 void drawText() { 
   textAlign(CENTER, CENTER);
@@ -175,8 +199,9 @@ void draw() {
 
   //drawBackground();
   drawMap();
-  drawPlayer();
+  //drawPlayer();
   drawText();
+  drawButton_Tower();
 }
 
 
