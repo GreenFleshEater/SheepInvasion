@@ -172,7 +172,11 @@ void drawButton_Tower () {
 }
 
 void mousePressed() {
-  setPixel (mouseX, mouseY,'G');
+  float nextX = playerX + vx/frameRate, 
+  nextY = playerY + vy/frameRate;
+  if ( map.testTileFullyInsideRect( nextX-playerR, nextY-playerR, 2*playerR, 2*playerR, "G" ) ) {
+    gameState=GAMEOVER;
+  }
 }
 
 void drawText() { 
@@ -199,7 +203,9 @@ void draw() {
 
   //drawBackground();
   drawMap();
-  //drawPlayer();
+  playerX = mouseX;
+  playerY = mouseY;
+  drawPlayer();
   drawText();
   drawButton_Tower();
 }
