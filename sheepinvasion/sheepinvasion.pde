@@ -172,10 +172,15 @@ void drawButton_Tower () {
 }
 
 void mousePressed() {
-  float nextX = playerX + vx/frameRate, 
-  nextY = playerY + vy/frameRate;
-  if ( map.testTileFullyInsideRect( nextX-playerR, nextY-playerR, 2*playerR, 2*playerR, "G" ) ) {
-    gameState=GAMEOVER;
+ float nextX = playerX + vx/frameRate,
+       nextY = playerY + vy/frameRate;
+       
+  for ( int x = 0; x < map.w; ++x ) {
+    for ( int y = 0; y < map.h; ++y ) {
+      if ( (map.at(x, y) == 'G')&& map.testTileFullyInsideRect( nextX-playerR, nextY-playerR, 2*playerR, 2*playerR, "G" ) ) {
+        map.set(x, y, 'T');
+      }
+    }
   }
 }
 
