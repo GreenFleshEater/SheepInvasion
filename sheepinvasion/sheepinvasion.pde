@@ -17,7 +17,7 @@ boolean showSpecialFunctions=false;
 float screenLeftX, screenTopY;
 
 float time;
-int GAMEWAIT=0, GAMERUNNING=1, GAMEOVER=2, GAMEWON=3;
+int GAMEWAIT=0, GAMERUNNING=1, GAMEOVER=2, GAMEWON=3, TowerBuy=4;
 int gameState;
 
 PImage backgroundImg;
@@ -156,7 +156,7 @@ void drawButton_Tower () {
     rect(25, 700, 200, 50);
 
     if (mousePressed==true){
-      //buyTower=true;
+      gameState = TowerBuy;
       fill(#ffffff);
       rect(25, 500, 200, 50);
     }
@@ -172,16 +172,10 @@ void drawButton_Tower () {
 }
 
 void mousePressed() {
- float nextX = playerX + vx/frameRate,
-       nextY = playerY + vy/frameRate;
-       
-  for ( int x = 0; x < map.w; ++x ) {
-    for ( int y = 0; y < map.h; ++y ) {
-      if ( (map.at(x, y) == 'G')&& map.testTileFullyInsideRect( nextX-playerR, nextY-playerR, 2*playerR, 2*playerR, "G" ) ) {
-        map.set(x, y, 'T');
+      if (gameState==TowerBuy) {
+       map.setPixel(mouseX, mouseY, 'T');
       }
-    }
-  }
+
 }
 
 void drawText() { 
