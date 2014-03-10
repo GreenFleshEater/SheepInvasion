@@ -16,16 +16,35 @@ boolean showSpecialFunctions=false;
 // left / top border of the screen in map coordinates
 float screenLeftX, screenTopY;
 
+//minim Import
+import ddf.minim.*;
+Minim minim;
+AudioPlayer player;
+
+//Money
+int money = 0;
+//Vektoren
+PShape towerBasic,towerMoney;
+
 float time;
-int GAMEWAIT=0, GAMERUNNING=1, GAMEOVER=2, GAMEWON=3, TowerBuy=4;
+int GAMEWAIT=0, GAMERUNNING=1, GAMEOVER=2, GAMEWON=3, TowerBuy=4, MoneyTowerBuy=5;
 int gameState;
 
 PImage backgroundImg;
 
 void setup() {
+  //Lade Spielmusik
+  minim = new Minim (this);
+  //Lade Spielmusik (später loopen und beenden lassen
+  player = minim.loadFile ("music/soundtrack.wav");
+  player.play ();
+  player.loop ();
+  frame.setResizable(true);
   size( 900, 700 );
   restart();
   frameRate(24);
+  towerBasic = loadShape("images/towerBasic.svg");
+  towerMoney = loadShape("images/towerMoney.svg");
 }
 
 void restart () {
@@ -171,11 +190,52 @@ void drawButton_Tower () {
   text("SchussTurm (15)", 200/2+25,500+33);
 }
 
+void drawButton_moneyTower () {
+  if (mouseX > 280 && mouseX < 280+200 && mouseY > 500 && mouseY < 500+50){
+    fill(#9b59b6);
+    rect(280, 700, 200, 50);
+
+    if (mousePressed==true){
+      gameState = MoneyTowerBuy;
+      fill(#ffffff);
+      rect(280, 500, 200, 50);
+    }
+  }
+  else{
+    fill(#f1c40f);
+    rect(280, 500, 200, 50);
+  }
+  fill(#ffffff);
+  textSize(18);
+  textAlign(CENTER);
+  text("Geldturm (25)", 200/2+280,500+33);
+}
+
 void mousePressed() {
       if (gameState==TowerBuy) {
        map.setPixel(mouseX, mouseY, 'T');
+       money=money-15;
+       gameState=GAMERUNNING;
+      }
+      if (gameState==MoneyTowerBuy) {
+       map.setPixel(mouseX, mouseY, 'M');
+       money=money-25;
+       gameState=GAMERUNNING;
       }
 
+}
+
+void checkMoney(){
+  textSize(24);
+  textAlign(LEFT);
+  fill(#ecf0f1);
+  text("Du hast "+money+" Münzen", 25,50);
+  if (money>=15){
+    drawButton_Tower();
+  }
+    if (money>=25){
+    drawButton_moneyTower();
+  }
 }
 
 void drawText() { 
@@ -187,11 +247,20 @@ void drawText() {
   else if (gameState==GAMEWON) text ("won in "+ round(time) + " seconds", width/2, height/2);
 }
 
+void towerDraw(float towerX1,float towerY1){
+  shape(towerBasic,towerX1,towerY1,50,75);
+}
+
+void moneytowerDraw(float moneytowerX1,float moneytowerY){
+  shape(towerMoney,moneytowerX1,moneytowerY,50,75);
+  }
+
 
 void draw() {
   if (gameState==GAMERUNNING) {
     //updatePlayer();
     time+=1/frameRate;
+    money=money+1;
   }
   else if (keyPressed && key==' ') {
     if (gameState==GAMEWAIT) gameState=GAMERUNNING;
@@ -201,12 +270,21 @@ void draw() {
   //screenTopY  = (map.heightPixel() - height)/2;
 
   //drawBackground();
+  background(128);
   drawMap();
   playerX = mouseX;
   playerY = mouseY;
+  checkMoney();
   drawPlayer();
   drawText();
-  drawButton_Tower();
+
+   if (gameState==TowerBuy) {
+    towerDraw(mouseX,mouseY);
+  }
+
+   if (gameState==MoneyTowerBuy) {
+    moneytowerDraw(mouseX,mouseY);
+  }
 }
 
 

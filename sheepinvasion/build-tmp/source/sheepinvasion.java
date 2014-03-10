@@ -32,22 +32,24 @@ boolean showSpecialFunctions=false;
 // left / top border of the screen in map coordinates
 float screenLeftX, screenTopY;
 
+//Money
+int money = 0;
+
 float time;
-int GAMEWAIT=0, GAMERUNNING=1, GAMEOVER=2, GAMEWON=3;
+int GAMEWAIT=0, GAMERUNNING=1, GAMEOVER=2, GAMEWON=3, TowerBuy=4, TowerBuy_ready;
 int gameState;
 
 PImage backgroundImg;
 
 public void setup() {
-  size( 500, 500 );
-  backgroundImg = loadImage ("images/fire.jpg");
+  size( 900, 700 );
   restart();
   frameRate(24);
 }
 
 public void restart () {
   map = new Map( "levelone.map");
-  for ( int x = 0; x < map.w; ++x ) {
+  /*for ( int x = 0; x < map.w; ++x ) {
     for ( int y = 0; y < map.h; ++y ) {
       if ( map.at(x, y) == 'S' ) {
         playerX = map.centerXOfTile (x);
@@ -59,7 +61,7 @@ public void restart () {
         goalY = map.centerYOfTile (y);
       }
     }
-  }
+  }*/
   time=0;
   vx = 0;
   vy = 0;
@@ -167,6 +169,43 @@ public void drawPlayer() {
   }
 }
 
+public void drawButton_Tower () {
+  if (mouseX > 25 && mouseX < 25+200 && mouseY > 500 && mouseY < 500+50){
+    fill(0xff9b59b6);
+    rect(25, 700, 200, 50);
+
+    if (mousePressed==true){
+      gameState = TowerBuy;
+      fill(0xffffffff);
+      rect(25, 500, 200, 50);
+    }
+  }
+  else{
+    fill(0xfff1c40f);
+    rect(25, 500, 200, 50);
+  }
+  fill(0xffffffff);
+  textSize(18);
+  textAlign(CENTER);
+  text("SchussTurm (15)", 200/2+25,500+33);
+}
+
+public void mousePressed() {
+      if (gameState==TowerBuy) {
+       map.setPixel(mouseX, mouseY, 'T');
+      }
+
+}
+
+public void checkMoney(){
+  textSize(24);
+  textAlign(LEFT);
+  fill(0xffecf0f1);
+  text("Du hast "+money+" M\u00fcnzen", 25,50);
+  if (money>=15){
+    gameState=TowerBuy_ready;
+  }
+}
 
 public void drawText() { 
   textAlign(CENTER, CENTER);
@@ -180,20 +219,26 @@ public void drawText() {
 
 public void draw() {
   if (gameState==GAMERUNNING) {
-    updatePlayer();
+    //updatePlayer();
     time+=1/frameRate;
   }
   else if (keyPressed && key==' ') {
     if (gameState==GAMEWAIT) gameState=GAMERUNNING;
     else if (gameState==GAMEOVER || gameState==GAMEWON) restart();
   }
-  screenLeftX = playerX - width/2;
-  screenTopY  = (map.heightPixel() - height)/2;
+  //screenLeftX = playerX - width/2;
+  //screenTopY  = (map.heightPixel() - height)/2;
 
-  drawBackground();
+  //drawBackground();
   drawMap();
+  playerX = mouseX;
+  playerY = mouseY;
+  checkMoney();
   drawPlayer();
   drawText();
+  if (gameState==TowerBuy_ready){
+  drawButton_Tower();
+  }
 }
 
 
