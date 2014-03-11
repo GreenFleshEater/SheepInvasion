@@ -233,7 +233,7 @@ void checkMoney(){
   if (money>=15){
     drawButton_Tower();
   }
-    if (money>=25){
+  if (money>=25){
     drawButton_moneyTower();
   }
 }
@@ -252,7 +252,7 @@ void towerDraw(float towerX1,float towerY1){
 }
 
 void moneytowerDraw(float moneytowerX1,float moneytowerY){
-  shape(towerMoney,moneytowerX1,moneytowerY,50,75);
+  shape(towerMoney,moneytowerX1,moneytowerY,50,50);
   }
 
 
