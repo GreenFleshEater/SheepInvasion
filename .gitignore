@@ -4,7 +4,7 @@ application.linux
 application.macosx
 application.windows
 *.zip
-build-tmp/*
+build-tmp/
 
 gamedemo/.DS_Store
 gamedemo/applet
@@ -12,7 +12,7 @@ gamedemo/application.linux
 gamedemo/application.macosx
 gamedemo/application.windows
 gamedemo/*.zip
-gamedemo/build-tmp/*
+gamedemo/build-tmp/
 
 blockeditor/.DS_Store
 blockeditor/applet
@@ -20,4 +20,4 @@ blockeditor/application.linux
 blockeditor/application.macosx
 blockeditor/application.windows
 blockeditor/*.zip
-blockeditor/build-tmp/*
+blockeditor/build-tmp/

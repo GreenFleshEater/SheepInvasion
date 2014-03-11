@@ -16,6 +16,8 @@ boolean showSpecialFunctions=false;
 // left / top border of the screen in map coordinates
 float screenLeftX, screenTopY;
 
+int i, j;
+
 //minim Import
 import ddf.minim.*;
 Minim minim;
@@ -284,5 +286,14 @@ void draw() {
 
    if (gameState==MoneyTowerBuy) {
     moneytowerDraw(mouseX,mouseY);
+  }
+
+  //schleife die prüft wo türme sind, vorerst ellipsen als platzhalter
+  for (i = 0; i < 8; i++) {
+    for (j = 0; j < 4; j++) {
+      if (map.at(i,j) == 'T'){
+        ellipse((i+1)*100-50, (j+1)*100-50, 50,50);
+      }
+    }
   }
 }
