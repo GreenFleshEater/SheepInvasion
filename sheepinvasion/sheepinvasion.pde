@@ -212,12 +212,12 @@ void drawButton_moneyTower () {
 }
 
 void mousePressed() {
-      if (gameState==TowerBuy) {
+      if (gameState==TowerBuy && map.atPixel(mouseX, mouseY) == 'G') {
        map.setPixel(mouseX, mouseY, 'T');
        money=money-15;
        gameState=GAMERUNNING;
       }
-      if (gameState==MoneyTowerBuy) {
+      if (gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'G') {
        map.setPixel(mouseX, mouseY, 'M');
        money=money-25;
        gameState=GAMERUNNING;
@@ -286,7 +286,3 @@ void draw() {
     moneytowerDraw(mouseX,mouseY);
   }
 }
-
-
-
-
