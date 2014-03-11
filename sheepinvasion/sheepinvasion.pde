@@ -16,7 +16,11 @@ boolean showSpecialFunctions=false;
 // left / top border of the screen in map coordinates
 float screenLeftX, screenTopY;
 
+//integer für schleifen
 int i, j;
+
+//objects
+Shot myShot;
 
 //minim Import
 import ddf.minim.*;
@@ -257,6 +261,24 @@ void moneytowerDraw(float moneytowerX1,float moneytowerY){
   shape(towerMoney,moneytowerX1,moneytowerY,50,50);
   }
 
+class Shot {
+  float x;
+  float y;
+
+  Shot (float _x, float _y) {
+    x=_x;
+    y=_y;
+  }
+
+  void move() {
+    x+=300/frameRate;
+  }
+
+  void run() {
+    ellipse(x,y,3,3);
+  }
+}
+
 
 void draw() {
   if (gameState==GAMERUNNING) {
@@ -279,6 +301,7 @@ void draw() {
   checkMoney();
   drawPlayer();
   drawText();
+  myShot.run();
 
    if (gameState==TowerBuy) {
     towerDraw(mouseX,mouseY);
@@ -291,8 +314,8 @@ void draw() {
   //schleife die prüft wo türme sind, vorerst ellipsen als platzhalter
   for (i = 0; i < 8; i++) {
     for (j = 0; j < 4; j++) {
-      if (map.at(i,j) == 'T'){
-        ellipse((i+1)*100-50, (j+1)*100-50, 50,50);
+      if (map.at(i,j) == 'T'){ //&&check ob wert noch nicht in array ist
+        myShot = new Shot((i+1)*100-50,(j+1)*100-50);
       }
     }
   }
