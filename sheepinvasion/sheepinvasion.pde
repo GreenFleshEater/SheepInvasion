@@ -22,9 +22,6 @@ int i, j;
 //timer für schüss
 float shotTimer;
 
-//bool für timer
-boolean shotWait=true;
-
 //objects
 ArrayList<Shot> shots = new ArrayList<Shot>();
 Shot myShot;
