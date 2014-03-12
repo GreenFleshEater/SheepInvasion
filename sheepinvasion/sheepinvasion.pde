@@ -20,6 +20,7 @@ float screenLeftX, screenTopY;
 int i, j;
 
 //objects
+ArrayList<Shot> shots = new ArrayList<Shot>();
 Shot myShot;
 
 //minim Import
@@ -275,6 +276,7 @@ class Shot {
   }
 
   void run() {
+    //x+=300/frameRate;
     ellipse(x,y,3,3);
   }
 }
@@ -299,26 +301,35 @@ void draw() {
    if (gameState==MoneyTowerBuy) {
     moneytowerDraw(mouseX,mouseY);
   }
-  
+
     if (gameState==GAMERUNNING) {
     //updatePlayer();
     time+=1/frameRate;
     money=money+1;
-    
+
     //schleife die prüft wo türme sind, vorerst ellipsen als platzhalter
   for (i = 0; i < 8; i++) {
     for (j = 0; j < 4; j++) {
       if (map.at(i,j) == 'T'){ //&&check ob wert noch nicht in array ist
-        myShot = new Shot((i+1)*100-50,(j+1)*100-50);
-        myShot.run();
+        //myShot = new Shot((i+1)*100-50,(j+1)*100-50);
+        shots.add(
+          new Shot((i+1)*100-50,(j+1)*100-50)
+      );
+        //myShot.run();
       }
     }
   }
+
   }
   else if (keyPressed && key==' ') {
     if (gameState==GAMEWAIT) gameState=GAMERUNNING;
     else if (gameState==GAMEOVER || gameState==GAMEWON) restart();
   }
+    for (int i = 0; i < shots.size(); ++i) {
+    shots.get(i).move();
+    shots.get(i).run();
 
-  
+
+  }
+
 }
