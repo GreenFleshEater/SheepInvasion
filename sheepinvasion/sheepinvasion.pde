@@ -97,7 +97,7 @@ void keyPressed() {
 
 void updatePlayer() {
   // update player
-  float nextX = playerX + vx/frameRate, 
+  float nextX = playerX + vx/frameRate,
   nextY = playerY + vy/frameRate;
   if ( map.testTileInRect( nextX-playerR, nextY-playerR, 2*playerR, 2*playerR, "W_" ) ) {
     vx = -vx;
@@ -108,11 +108,11 @@ void updatePlayer() {
   else if ( map.testTileFullyInsideRect( nextX-playerR, nextY-playerR, 2*playerR, 2*playerR, "H" ) ) {
     gameState=GAMEOVER;
   }
-  
+
    else if ( map.testTileFullyInsideRect( nextX-playerR, nextY-playerR, 2*playerR, 2*playerR, "P" ) ) {
      gameState=GAMEOVER;
   }
-  
+
   else if ( map.testTileFullyInsideRect( nextX-playerR, nextY-playerR, 2*playerR, 2*playerR, "E" ) ) {
     gameState=GAMEWON;
   }
@@ -142,7 +142,7 @@ void drawBackground() {
 }
 
 
-void drawMap() {   
+void drawMap() {
   // The left border of the screen is at screenLeftX in map coordinates
   // so we draw the left border of the map at -screenLeftX in screen coordinates
   // Same for screenTopY.
@@ -155,20 +155,20 @@ void drawPlayer() {
   noStroke();
   fill(0, 255, 255);
   ellipseMode(CENTER);
-  ellipse( playerX - screenLeftX, playerY - screenTopY, 2*playerR, 2*playerR );  
+  ellipse( playerX - screenLeftX, playerY - screenTopY, 2*playerR, 2*playerR );
 
   // understanding this is optional, skip at first sight
   if (showSpecialFunctions) {
-    // draw a line to the next hole   
+    // draw a line to the next hole
     Map.TileReference nextHole = map.findClosestTileInRect (playerX, playerY, 200, 200, "H");
     stroke(255, 0, 255);
-    if (nextHole!=null) line (playerX-screenLeftX, playerY-screenTopY, 
+    if (nextHole!=null) line (playerX-screenLeftX, playerY-screenTopY,
     nextHole.centerX-screenLeftX, nextHole.centerY-screenTopY);
 
     // draw line of sight to goal (until next wall) (understanding this is optional)
-    stroke(0, 255, 255);  
+    stroke(0, 255, 255);
     Map.TileReference nextWall = map.findTileOnLine (playerX, playerY, goalX, goalY, "W");
-    if (nextWall!=null) 
+    if (nextWall!=null)
       line (playerX-screenLeftX, playerY-screenTopY, nextWall.xPixel-screenLeftX, nextWall.yPixel-screenTopY);
     else
       line (playerX-screenLeftX, playerY-screenTopY, goalX-screenLeftX, goalY-screenTopY);
@@ -244,10 +244,10 @@ void checkMoney(){
   }
 }
 
-void drawText() { 
+void drawText() {
   textAlign(CENTER, CENTER);
-  fill(0, 255, 0);  
-  textSize(40);  
+  fill(0, 255, 0);
+  textSize(40);
   if (gameState==GAMEWAIT) text ("press space to start", width/2, height/2);
   else if (gameState==GAMEOVER) text ("game over", width/2, height/2);
   else if (gameState==GAMEWON) text ("won in "+ round(time) + " seconds", width/2, height/2);
@@ -277,8 +277,7 @@ class Shot {
   void run() {
     ellipse(x,y,3,3);
   }
-}
-
+}}
 
 void draw() {
   if (gameState==GAMERUNNING) {
@@ -301,7 +300,6 @@ void draw() {
   checkMoney();
   drawPlayer();
   drawText();
-  myShot.run();
 
    if (gameState==TowerBuy) {
     towerDraw(mouseX,mouseY);
@@ -319,4 +317,5 @@ void draw() {
       }
     }
   }
+  myShot.run();
 }
