@@ -32,7 +32,7 @@ Minim minim;
 AudioPlayer player;
 
 //Money
-float money = 0;
+float money = 300;
 //Vektoren
 PShape towerBasic,towerMoney, towerPro;
 
@@ -349,7 +349,7 @@ void draw() {
     if (gameState==GAMERUNNING) {
     //updatePlayer();
     time+=1/frameRate;
-    money=money+1;
+    //money=money+1; //auskommentiert, da Geld momentan nur durch moneyTower generiert wird. Viel spannender, oder?
 
   shotTimer+=1/frameRate;
   proShotTimer+=1/frameRate;
@@ -374,7 +374,7 @@ void draw() {
       for (j = 0; j < 4; j++) {
         if (map.at(i,j) == 'P'){
           shots.add(
-            new Shot((i+1)*100-24,(j+1)*100-64)
+            new Shot((i+1)*100-24,(j+1)*100-65)
           );
         }
       }
