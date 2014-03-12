@@ -20,7 +20,7 @@ float screenLeftX, screenTopY;
 int i, j;
 
 //timer für schüss
-float shotTimer;
+float shotTimer, proShotTimer;
 
 //objects
 ArrayList<Shot> shots = new ArrayList<Shot>();
@@ -32,7 +32,7 @@ Minim minim;
 AudioPlayer player;
 
 //Money
-int money = 0;
+float money = 0;
 //Vektoren
 PShape towerBasic,towerMoney, towerPro;
 
@@ -269,7 +269,7 @@ void checkMoney(){
   textSize(24);
   textAlign(LEFT);
   fill(#ecf0f1);
-  text("Du hast "+money+" Münzen", 25,50);
+  text("Du hast "+int(money)+" Münzen", 25,50);
   if (money>=15){
     drawButton_Tower();
   }
@@ -352,6 +352,7 @@ void draw() {
     money=money+1;
 
   shotTimer+=1/frameRate;
+  proShotTimer+=1/frameRate;
 
   //schleife die prüft wo türme sind, vorerst ellipsen als platzhalter
   if (shotTimer >=1) {
@@ -365,6 +366,29 @@ void draw() {
       }
     }
     shotTimer = 0;
+  }
+
+    //schleife die prüft wo türme sind, vorerst ellipsen als platzhalter
+  if (proShotTimer >=0.4) {
+    for (i = 0; i < 8; i++) {
+      for (j = 0; j < 4; j++) {
+        if (map.at(i,j) == 'P'){
+          shots.add(
+            new Shot((i+1)*100-24,(j+1)*100-64)
+          );
+        }
+      }
+    }
+    proShotTimer = 0;
+  }
+
+  //MoneyTower machen Geld!
+  for (i = 0; i < 8; i++) {
+    for (j = 0; j < 4; j++) {
+      if (map.at(i,j) == 'M'){
+        money+=10/frameRate;
+      }
+    }
   }
 
   }
