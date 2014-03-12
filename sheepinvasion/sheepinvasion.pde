@@ -306,10 +306,14 @@ void protowerDraw(float protowerX1,float protowerY1){
 class Shot {
   float x;
   float y;
+  int r;
+  color c;
 
-  Shot (float _x, float _y) {
+  Shot (float _x, float _y, int _r, color _c) {
     x=_x;
     y=_y;
+    r=_r;
+    c=_c;
   }
 
   void move() {
@@ -317,7 +321,8 @@ class Shot {
   }
 
   void run() {
-    ellipse(x,y,3,3);
+    fill (c);
+    ellipse(x,y,r,r);
   }
 };
 
@@ -360,7 +365,7 @@ void draw() {
       for (j = 0; j < 4; j++) {
         if (map.at(i,j) == 'T'){ //&&check ob wert noch nicht in array ist
           shots.add(
-            new Shot((i+1)*100-28,(j+1)*100-65)
+            new Shot((i+1)*100-28,(j+1)*100-65, 3, #2aff00)
           );
         }
       }
@@ -374,7 +379,7 @@ void draw() {
       for (j = 0; j < 4; j++) {
         if (map.at(i,j) == 'P'){
           shots.add(
-            new Shot((i+1)*100-24,(j+1)*100-65)
+            new Shot((i+1)*100-24,(j+1)*100-65, 4, #00e0ff)
           );
         }
       }
