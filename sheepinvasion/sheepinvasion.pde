@@ -34,10 +34,10 @@ AudioPlayer player;
 //Money
 int money = 0;
 //Vektoren
-PShape towerBasic,towerMoney;
+PShape towerBasic,towerMoney, towerPro;
 
 float time;
-int GAMEWAIT=0, GAMERUNNING=1, GAMEOVER=2, GAMEWON=3, TowerBuy=4, MoneyTowerBuy=5;
+int GAMEWAIT=0, GAMERUNNING=1, GAMEOVER=2, GAMEWON=3, TowerBuy=4, MoneyTowerBuy=5, ProTowerBuy=6;
 int gameState;
 
 PImage backgroundImg;
@@ -55,6 +55,7 @@ void setup() {
   frameRate(24);
   towerBasic = loadShape("images/towerBasic.svg");
   towerMoney = loadShape("images/towerMoney.svg");
+  towerPro = loadShape("images/towerPro.svg");
 }
 
 void restart () {
@@ -221,11 +222,39 @@ void drawButton_moneyTower () {
   text("Geldturm (25)", 200/2+280,500+33);
 }
 
+void drawButton_proTower () {
+  if (mouseX > 535 && mouseX < 535+200 && mouseY > 500 && mouseY < 500+50){
+    fill(#9b59b6);
+    rect(535, 700, 200, 50);
+
+    if (mousePressed==true){
+      gameState = ProTowerBuy;
+      fill(#ffffff);
+      rect(535, 500, 200, 50);
+    }
+  }
+  else{
+    fill(#f1c40f);
+    rect(535, 500, 200, 50);
+  }
+  fill(#ffffff);
+  textSize(18);
+  textAlign(CENTER);
+  text("Schussturm Upgrade (50)", 200/2+535,500+33);
+}
+
 // Pausiert das Spiel und lässt einen Tower auf das Feld bauen.
 void mousePressed() {
       if (gameState==TowerBuy && map.atPixel(mouseX, mouseY) == 'G') {
        map.setPixel(mouseX, mouseY, 'T');
        money=money-15;
+       gameState=GAMERUNNING;
+      }
+
+      //Pro Tower als Upgrade
+      if (gameState==ProTowerBuy && map.atPixel(mouseX, mouseY) == 'T') {
+       map.setPixel(mouseX, mouseY, 'P');
+       money=money-50;
        gameState=GAMERUNNING;
       }
       if (gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'G') {
@@ -247,6 +276,9 @@ void checkMoney(){
   if (money>=25){
     drawButton_moneyTower();
   }
+  if (money>=50){
+    drawButton_proTower();
+  }
 }
 
 void drawText() {
@@ -263,9 +295,13 @@ void towerDraw(float towerX1,float towerY1){
   shape(towerBasic,towerX1,towerY1,50,75);
 }
 
-void moneytowerDraw(float moneytowerX1,float moneytowerY){
-  shape(towerMoney,moneytowerX1,moneytowerY,50,50);
-  }
+void moneytowerDraw(float moneytowerX1,float moneytowerY1){
+  shape(towerMoney,moneytowerX1,moneytowerY1,50,50);
+}
+
+void protowerDraw(float protowerX1,float protowerY1){
+  shape(towerPro,protowerX1,protowerY1,50,75);
+}
 
 class Shot {
   float x;
@@ -304,6 +340,10 @@ void draw() {
 
    if (gameState==MoneyTowerBuy) {
     moneytowerDraw(mouseX,mouseY);
+  }
+
+  if (gameState==ProTowerBuy) {
+    protowerDraw(mouseX,mouseY);
   }
 
     if (gameState==GAMERUNNING) {
