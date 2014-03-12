@@ -319,7 +319,7 @@ void draw() {
       for (j = 0; j < 4; j++) {
         if (map.at(i,j) == 'T'){ //&&check ob wert noch nicht in array ist
           shots.add(
-            new Shot((i+1)*100-50,(j+1)*100-50)
+            new Shot((i+1)*100-28,(j+1)*100-65)
           );
         }
       }
