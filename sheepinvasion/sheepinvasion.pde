@@ -175,7 +175,7 @@ void drawPlayer() {
       line (playerX-screenLeftX, playerY-screenTopY, goalX-screenLeftX, goalY-screenTopY);
   }
 }
-
+// Malt die Buttons für die Tower und ändert auf Klick den GameState
 void drawButton_Tower () {
   if (mouseX > 25 && mouseX < 25+200 && mouseY > 500 && mouseY < 500+50){
     fill(#9b59b6);
@@ -218,6 +218,7 @@ void drawButton_moneyTower () {
   text("Geldturm (25)", 200/2+280,500+33);
 }
 
+// Pausiert das Spiel und lässt einen Tower auf das Feld bauen.
 void mousePressed() {
       if (gameState==TowerBuy && map.atPixel(mouseX, mouseY) == 'G') {
        map.setPixel(mouseX, mouseY, 'T');
@@ -231,7 +232,7 @@ void mousePressed() {
       }
 
 }
-
+// Überprüft wie viel Geld da ist und malt dann einen Button für mögliche Investitionen
 void checkMoney(){
   textSize(24);
   textAlign(LEFT);
@@ -254,6 +255,7 @@ void drawText() {
   else if (gameState==GAMEWON) text ("won in "+ round(time) + " seconds", width/2, height/2);
 }
 
+// Malt die Tower für ein besseres Verständnis während des Kaufvorgangs
 void towerDraw(float towerX1,float towerY1){
   shape(towerBasic,towerX1,towerY1,50,75);
 }
@@ -276,10 +278,9 @@ class Shot {
   }
 
   void run() {
-    //x+=300/frameRate;
     ellipse(x,y,3,3);
   }
-}
+};
 
 void draw() {
   //screenLeftX = playerX - width/2;
@@ -311,11 +312,9 @@ void draw() {
   for (i = 0; i < 8; i++) {
     for (j = 0; j < 4; j++) {
       if (map.at(i,j) == 'T'){ //&&check ob wert noch nicht in array ist
-        //myShot = new Shot((i+1)*100-50,(j+1)*100-50);
         shots.add(
           new Shot((i+1)*100-50,(j+1)*100-50)
       );
-        //myShot.run();
       }
     }
   }
@@ -328,8 +327,6 @@ void draw() {
     for (int i = 0; i < shots.size(); ++i) {
     shots.get(i).move();
     shots.get(i).run();
-
-
   }
 
 }
