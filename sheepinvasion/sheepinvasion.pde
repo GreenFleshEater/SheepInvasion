@@ -277,18 +277,9 @@ class Shot {
   void run() {
     ellipse(x,y,3,3);
   }
-}}
+}
 
 void draw() {
-  if (gameState==GAMERUNNING) {
-    //updatePlayer();
-    time+=1/frameRate;
-    money=money+1;
-  }
-  else if (keyPressed && key==' ') {
-    if (gameState==GAMEWAIT) gameState=GAMERUNNING;
-    else if (gameState==GAMEOVER || gameState==GAMEWON) restart();
-  }
   //screenLeftX = playerX - width/2;
   //screenTopY  = (map.heightPixel() - height)/2;
 
@@ -308,14 +299,26 @@ void draw() {
    if (gameState==MoneyTowerBuy) {
     moneytowerDraw(mouseX,mouseY);
   }
-
-  //schleife die prüft wo türme sind, vorerst ellipsen als platzhalter
+  
+    if (gameState==GAMERUNNING) {
+    //updatePlayer();
+    time+=1/frameRate;
+    money=money+1;
+    
+    //schleife die prüft wo türme sind, vorerst ellipsen als platzhalter
   for (i = 0; i < 8; i++) {
     for (j = 0; j < 4; j++) {
       if (map.at(i,j) == 'T'){ //&&check ob wert noch nicht in array ist
         myShot = new Shot((i+1)*100-50,(j+1)*100-50);
+        myShot.run();
       }
     }
   }
-  myShot.run();
+  }
+  else if (keyPressed && key==' ') {
+    if (gameState==GAMEWAIT) gameState=GAMERUNNING;
+    else if (gameState==GAMEOVER || gameState==GAMEWON) restart();
+  }
+
+  
 }
