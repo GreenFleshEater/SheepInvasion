@@ -19,6 +19,12 @@ float screenLeftX, screenTopY;
 //integer für schleifen
 int i, j;
 
+//timer für schüss
+float shotTimer;
+
+//bool für timer
+boolean shotWait=true;
+
 //objects
 ArrayList<Shot> shots = new ArrayList<Shot>();
 Shot myShot;
@@ -308,15 +314,20 @@ void draw() {
     time+=1/frameRate;
     money=money+1;
 
-    //schleife die prüft wo türme sind, vorerst ellipsen als platzhalter
-  for (i = 0; i < 8; i++) {
-    for (j = 0; j < 4; j++) {
-      if (map.at(i,j) == 'T'){ //&&check ob wert noch nicht in array ist
-        shots.add(
-          new Shot((i+1)*100-50,(j+1)*100-50)
-      );
+  shotTimer+=1/frameRate;
+
+  //schleife die prüft wo türme sind, vorerst ellipsen als platzhalter
+  if (shotTimer >=1) {
+    for (i = 0; i < 8; i++) {
+      for (j = 0; j < 4; j++) {
+        if (map.at(i,j) == 'T'){ //&&check ob wert noch nicht in array ist
+          shots.add(
+            new Shot((i+1)*100-50,(j+1)*100-50)
+          );
+        }
       }
     }
+    shotTimer = 0;
   }
 
   }
