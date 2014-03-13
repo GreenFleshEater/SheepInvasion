@@ -21,3 +21,11 @@ blockeditor/application.macosx
 blockeditor/application.windows
 blockeditor/*.zip
 blockeditor/build-tmp/*
+
+sheepinvasion/.DS_Store
+sheepinvasion/applet
+sheepinvasion/application.linux
+sheepinvasion/application.macosx
+sheepinvasion/application.windows
+sheepinvasion/*.zip
+sheepinvasion/build-tmp/*
