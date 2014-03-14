@@ -377,11 +377,11 @@ class Enemy {
   void move() {
     x-=speed/frameRate;
     for (int i = 0; i < shots.size(); ++i) {
-    if (shots.get(i).x >= x-60 && shots.get(i).y >= y-20 && shots.get(i).y <= y+20) {
-      health -= 10;
-      shots.remove(i);
+      if (shots.get(i).x >= x-60 && shots.get(i).y >= y-20 && shots.get(i).y <= y+20) {
+        health -= 3;
+        shots.remove(i);
+      }
     }
-  }
   }
 
   boolean dead() {
@@ -396,9 +396,9 @@ class Enemy {
   void run() {
     shape(enemyBasic,x,y,112,75);
     fill(0);
-    rect(x,y+40,102,10);
+    rect(x-112/2,y+40,102,5);
     fill(0,255,0);
-    rect(x,y+40,map(health,0,60,0,100),8);
+    rect(x-112/2+1,y+41,map(health,0,60,0,100),3);
   }
 };
 
