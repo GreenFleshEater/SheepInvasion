@@ -23,8 +23,12 @@ int i, j;
 float shotTimer, proShotTimer;
 
 //objects
+//shots
 ArrayList<Shot> shots = new ArrayList<Shot>();
 Shot myShot;
+//enemies
+ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+Enemy myEnemy;
 
 //minim Import
 import ddf.minim.*;
@@ -34,7 +38,10 @@ AudioPlayer player;
 //Money
 float money = 300;
 //Vektoren
-PShape towerBasic,towerMoney, towerPro;
+PShape towerBasic,towerMoney, towerPro, enemyBasic;
+
+//Schwierigkeit
+int difficulty = 25;
 
 float time;
 int GAMEWAIT=0, GAMERUNNING=1, GAMEOVER=2, GAMEWON=3, TowerBuy=4, MoneyTowerBuy=5, ProTowerBuy=6;
@@ -53,9 +60,13 @@ void setup() {
   size( 900, 700 );
   restart();
   frameRate(24);
+
+  shapeMode(CENTER);
+
   towerBasic = loadShape("images/towerBasic.svg");
   towerMoney = loadShape("images/towerMoney.svg");
   towerPro = loadShape("images/towerPro.svg");
+  enemyBasic = loadShape("images/enemyBasic.svg");
 }
 
 void restart () {
@@ -326,6 +337,26 @@ class Shot {
   }
 };
 
+class Enemy {
+  float x;
+  float y;
+  int typ;
+
+  Enemy (float _x, float _y, int _typ) {
+    x=_x;
+    y=_y;
+    typ=_typ;
+  }
+
+  void move() {
+    x-=30/frameRate;
+  }
+
+  void run() {
+    shape(enemyBasic,x,y,75,50);
+  }
+};
+
 void draw() {
   //screenLeftX = playerX - width/2;
   //screenTopY  = (map.heightPixel() - height)/2;
@@ -354,10 +385,9 @@ void draw() {
     if (gameState==GAMERUNNING) {
     //updatePlayer();
     time+=1/frameRate;
+    shotTimer+=1/frameRate;
+    proShotTimer+=1/frameRate;
     //money=money+1; //auskommentiert, da Geld momentan nur durch moneyTower generiert wird. Viel spannender, oder?
-
-  shotTimer+=1/frameRate;
-  proShotTimer+=1/frameRate;
 
   //schleife die prüft wo türme sind, vorerst ellipsen als platzhalter
   if (shotTimer >=1) {
@@ -373,7 +403,7 @@ void draw() {
     shotTimer = 0;
   }
 
-    //schleife die prüft wo türme sind, vorerst ellipsen als platzhalter
+  //schleife die prüft wo türme sind, vorerst ellipsen als platzhalter
   if (proShotTimer >=0.4) {
     for (i = 0; i < map.w; i++) {
       for (j = 0; j < map.h; j++) {
@@ -385,6 +415,18 @@ void draw() {
       }
     }
     proShotTimer = 0;
+  }
+
+  //schleife die gegner spawnt
+  //umso niedriger die Schwierigkeit, desto häufiger spawnen Gegner
+  for (i = 0; i < map.w; i++) {
+    for (j = 0; j < map.h; j++) {
+      if (map.at(i,j) == 'S' && int(random(0,difficulty*frameRate))==0){
+        enemies.add(
+          new Enemy((i+1)*100+50,(j+1)*100-50, 1)
+        );
+      }
+    }
   }
 
   //MoneyTower machen Geld!
@@ -401,9 +443,13 @@ void draw() {
     if (gameState==GAMEWAIT) gameState=GAMERUNNING;
     else if (gameState==GAMEOVER || gameState==GAMEWON) restart();
   }
-    for (int i = 0; i < shots.size(); ++i) {
+  for (int i = 0; i < shots.size(); ++i) {
     shots.get(i).move();
     shots.get(i).run();
+  }
+  for (int i = 0; i < enemies.size(); ++i) {
+    enemies.get(i).move();
+    enemies.get(i).run();
   }
 
 }
