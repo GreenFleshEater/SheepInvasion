@@ -234,24 +234,24 @@ void drawButton_moneyTower () {
 }
 
 void drawButton_proTower () {
-  if (mouseX > 535 && mouseX < 535+200 && mouseY > 630 && mouseY < 630+50){
+  if (mouseX > 525 && mouseX < 525+200 && mouseY > 630 && mouseY < 630+60){
     fill(#9b59b6);
-    rect(535, 700, 200, 50);
+    rect(525, 700, 200, 60);
 
     if (mousePressed==true){
       gameState = ProTowerBuy;
       fill(#ffffff);
-      rect(535, 630, 200, 50);
+      rect(525, 630, 200, 60);
     }
   }
   else{
     fill(#f1c40f);
-    rect(535, 630, 200, 50);
+    rect(525, 630, 250, 50);
   }
   fill(#ffffff);
   textSize(18);
   textAlign(CENTER);
-  text("Schussturm Upgrade (50)", 200/2+535,630+33);
+  text("Schussturm Upgrade (50)", 200/2+545,630+33);
 }
 
 // Pausiert das Spiel und lässt einen Tower auf das Feld bauen.
