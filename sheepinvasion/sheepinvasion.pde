@@ -209,7 +209,7 @@ void drawButton_Tower () {
   fill(#ffffff);
   textSize(18);
   textAlign(CENTER);
-  text("SchussTurm (15)", 200/2+25,630+33);
+  text("Schussturm (15)", 200/2+25,630+33);
 }
 
 void drawButton_moneyTower () {
