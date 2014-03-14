@@ -171,7 +171,7 @@ void drawPlayer() {
   noStroke();
   fill(0, 255, 255);
   ellipseMode(CENTER);
-  ellipse( playerX - screenLeftX, playerY - screenTopY, 2*playerR, 2*playerR );
+  //ellipse( playerX - screenLeftX, playerY - screenTopY, 2*playerR, 2*playerR );
 
   // understanding this is optional, skip at first sight
   if (showSpecialFunctions) {
@@ -484,6 +484,13 @@ void draw() {
       if (map.at(i,j) == 'M'){
         money+=10/frameRate;
       }
+    }
+  }
+
+  //Towerzerstörung durch Gegner!
+  for (int i = 0; i < enemies.size(); ++i) {
+    if (map.atPixel(enemies.get(i).x, enemies.get(i).y)=='T' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='M' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='P'){
+      map.setPixel(int(enemies.get(i).x),int(enemies.get(i).y), 'G');
     }
   }
 
