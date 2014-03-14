@@ -313,14 +313,12 @@ void moneytowerDraw(float moneytowerX1,float moneytowerY1){
 void protowerDraw(float protowerX1,float protowerY1){
   shape(towerPro,protowerX1,protowerY1,50,75);
 }
-
+// Der Schuss  wird hier berechnet und gemalt. 
 class Shot {
   float x;
   float y;
   int r;
   color c;
-
-  boolean fail = false;
 
   Shot (float _x, float _y, int _r, color _c) {
     x=_x;
@@ -347,7 +345,7 @@ boolean fail() {
     ellipse(x,y,r,r);
   }
 };
-
+// Der  Gegner wird hier berechnet und gespawnt
 class Enemy {
   float x;
   float y;
