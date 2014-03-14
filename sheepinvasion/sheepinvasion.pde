@@ -320,9 +320,9 @@ class Shot {
   int r;
   color c;
 
-  Shot (float _x, float _y, int _r, color _c) {
+  Shot (float _x, float j, int _r, color _c) {
     x=_x;
-    y=_y;
+    y=(j+1)*100-65;
     r=_r;
     c=_c;
   }
@@ -352,9 +352,9 @@ class Enemy {
   int typ;
   float speed=(random(25,30));
 
-  Enemy (float _x, float _y, int _typ) {
+  Enemy (float _x, float j, int _typ) {
     x=_x;
-    y=_y;
+    y=(j+1)*100-50;
     typ=_typ;
   }
 
@@ -406,7 +406,7 @@ void draw() {
       for (j = 0; j < map.h; j++) {
         if (map.at(i,j) == 'T'){ //&&check ob wert noch nicht in array ist
           shots.add(
-            new Shot((i+1)*100-28,(j+1)*100-65, 3, #2aff00)
+            new Shot((i+1)*100-28,j, 3, #2aff00)
           );
         }
       }
@@ -420,7 +420,7 @@ void draw() {
       for (j = 0; j < map.h; j++) {
         if (map.at(i,j) == 'P'){
           shots.add(
-            new Shot((i+1)*100-24,(j+1)*100-65, 4, #00e0ff)
+            new Shot((i+1)*100-24,j, 4, #00e0ff)
           );
         }
       }
@@ -435,7 +435,7 @@ void draw() {
       for (j = 0; j < map.h; j++) {
         if (map.at(i,j) == 'S' && int(random(0,difficulty*frameRate))==0){
           enemies.add(
-            new Enemy((i+1)*100+50,(j+1)*100-50, 1)
+            new Enemy((i+1)*100+50,j, 1)
           );
         }
       }
