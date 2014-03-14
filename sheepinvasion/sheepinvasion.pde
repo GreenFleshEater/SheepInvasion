@@ -192,66 +192,66 @@ void drawPlayer() {
 }
 // Malt die Buttons für die Tower und ändert auf Klick den GameState
 void drawButton_Tower () {
-  if (mouseX > 25 && mouseX < 25+200 && mouseY > 500 && mouseY < 500+50){
+  if (mouseX > 25 && mouseX < 25+200 && mouseY > 630 && mouseY < 630+50){
     fill(#9b59b6);
-    rect(25, 700, 200, 50);
+    rect(25, 630, 200, 50);
 
     if (mousePressed==true){
       gameState = TowerBuy;
       fill(#ffffff);
-      rect(25, 500, 200, 50);
+      rect(25, 630, 200, 50);
     }
   }
   else{
     fill(#f1c40f);
-    rect(25, 500, 200, 50);
+    rect(25, 630, 200, 50);
   }
   fill(#ffffff);
   textSize(18);
   textAlign(CENTER);
-  text("SchussTurm (15)", 200/2+25,500+33);
+  text("SchussTurm (15)", 200/2+25,630+33);
 }
 
 void drawButton_moneyTower () {
-  if (mouseX > 280 && mouseX < 280+200 && mouseY > 500 && mouseY < 500+50){
+  if (mouseX > 280 && mouseX < 280+200 && mouseY > 630 && mouseY < 630+50){
     fill(#9b59b6);
-    rect(280, 700, 200, 50);
+    rect(280, 630, 200, 50);
 
     if (mousePressed==true){
       gameState = MoneyTowerBuy;
       fill(#ffffff);
-      rect(280, 500, 200, 50);
+      rect(280, 630, 200, 50);
     }
   }
   else{
     fill(#f1c40f);
-    rect(280, 500, 200, 50);
+    rect(280, 630, 200, 50);
   }
   fill(#ffffff);
   textSize(18);
   textAlign(CENTER);
-  text("Geldturm (25)", 200/2+280,500+33);
+  text("Geldturm (25)", 200/2+280,630+33);
 }
 
 void drawButton_proTower () {
-  if (mouseX > 535 && mouseX < 535+200 && mouseY > 500 && mouseY < 500+50){
+  if (mouseX > 535 && mouseX < 535+200 && mouseY > 630 && mouseY < 630+50){
     fill(#9b59b6);
     rect(535, 700, 200, 50);
 
     if (mousePressed==true){
       gameState = ProTowerBuy;
       fill(#ffffff);
-      rect(535, 500, 200, 50);
+      rect(535, 630, 200, 50);
     }
   }
   else{
     fill(#f1c40f);
-    rect(535, 500, 200, 50);
+    rect(535, 630, 200, 50);
   }
   fill(#ffffff);
   textSize(18);
   textAlign(CENTER);
-  text("Schussturm Upgrade (50)", 200/2+535,500+33);
+  text("Schussturm Upgrade (50)", 200/2+535,630+33);
 }
 
 // Pausiert das Spiel und lässt einen Tower auf das Feld bauen.
