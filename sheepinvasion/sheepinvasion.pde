@@ -59,7 +59,7 @@ void setup() {
 }
 
 void restart () {
-  map = new Map( "levelone.map");
+  map = new Map( "levelthree.map");
   /*for ( int x = 0; x < map.w; ++x ) {
     for ( int y = 0; y < map.h; ++y ) {
       if ( map.at(x, y) == 'S' ) {
@@ -361,8 +361,8 @@ void draw() {
 
   //schleife die prüft wo türme sind, vorerst ellipsen als platzhalter
   if (shotTimer >=1) {
-    for (i = 0; i < 8; i++) {
-      for (j = 0; j < 4; j++) {
+    for (i = 0; i < map.w; i++) {
+      for (j = 0; j < map.h; j++) {
         if (map.at(i,j) == 'T'){ //&&check ob wert noch nicht in array ist
           shots.add(
             new Shot((i+1)*100-28,(j+1)*100-65, 3, #2aff00)
@@ -375,8 +375,8 @@ void draw() {
 
     //schleife die prüft wo türme sind, vorerst ellipsen als platzhalter
   if (proShotTimer >=0.4) {
-    for (i = 0; i < 8; i++) {
-      for (j = 0; j < 4; j++) {
+    for (i = 0; i < map.w; i++) {
+      for (j = 0; j < map.h; j++) {
         if (map.at(i,j) == 'P'){
           shots.add(
             new Shot((i+1)*100-24,(j+1)*100-65, 4, #00e0ff)
@@ -388,8 +388,8 @@ void draw() {
   }
 
   //MoneyTower machen Geld!
-  for (i = 0; i < 8; i++) {
-    for (j = 0; j < 4; j++) {
+  for (i = 0; i < map.w; i++) {
+    for (j = 0; j < map.h; j++) {
       if (map.at(i,j) == 'M'){
         money+=10/frameRate;
       }
