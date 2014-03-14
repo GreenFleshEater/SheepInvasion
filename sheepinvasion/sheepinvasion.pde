@@ -499,13 +499,14 @@ void draw() {
     enemies.get(i).move();
     enemies.get(i).run();
 
+    //Towerzerstörung durch Gegner
+    if (map.atPixel(enemies.get(i).x, enemies.get(i).y)=='T' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='M' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='P' && enemies.get(i).dead() == false){
+      map.setPixel(int(enemies.get(i).x),int(enemies.get(i).y), 'G');
+    }
+
     if (enemies.get(i).dead()) {
       enemies.remove(i);
       i--;
-    }
-    //Towerzerstörung durch Gegner
-    if (map.atPixel(enemies.get(i).x, enemies.get(i).y)=='T' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='M' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='P'){
-      map.setPixel(int(enemies.get(i).x),int(enemies.get(i).y), 'G');
     }
   }
 
