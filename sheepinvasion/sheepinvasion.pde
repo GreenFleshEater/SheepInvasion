@@ -319,6 +319,7 @@ class Shot {
   float y;
   int r;
   color c;
+  float eX, eY;
 
   Shot (float _x, float j, int _r, color _c) {
     x=_x;
@@ -329,16 +330,30 @@ class Shot {
 
   void move() {
     x+=300/frameRate;
+    for (int i = 0; i < enemies.size(); ++i) {
+      eX = enemies.get(i).x;
+      eY = enemies.get(i).y;
+    }
   }
 
+
 boolean fail() {
-  if (x>=width-200) {
+  if (x>=width+shots.size()) {
     return true;
   }
   else {
     return false;
   }
 }
+
+  boolean hit() {
+      if (x >= eX-60 && y >= eY-20 && y <= eY+20) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
 
   void run() {
     fill (c);
@@ -351,6 +366,7 @@ class Enemy {
   float y;
   int typ;
   float speed=(random(25,30));
+  float health = 60;
 
   Enemy (float _x, float j, int _typ) {
     x=_x;
@@ -360,10 +376,28 @@ class Enemy {
 
   void move() {
     x-=speed/frameRate;
+    for (int i = 0; i < shots.size(); ++i) {
+    if (shots.get(i).x >= x-60 && shots.get(i).y >= y-20 && shots.get(i).y <= y+20) {
+      health -= 10;
+    }
+  }
+  }
+
+  boolean dead() {
+    if (health <= 0) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   void run() {
     shape(enemyBasic,x,y,112,75);
+    fill(0);
+    rect(x,y+40,102,10);
+    fill(0,255,0);
+    rect(x,y+40,map(health,0,60,0,100),8);
   }
 };
 
@@ -455,7 +489,7 @@ void draw() {
   for (int i = 0; i < shots.size(); ++i) {
     shots.get(i).move();
     shots.get(i).run();
-    if (shots.get(i).fail()) {
+    if (shots.get(i).fail() || shots.get(i).hit()) {
       shots.remove(i);
       i--;
     }
@@ -463,6 +497,10 @@ void draw() {
   for (int i = 0; i < enemies.size(); ++i) {
     enemies.get(i).move();
     enemies.get(i).run();
+    if (enemies.get(i).dead()) {
+      enemies.remove(i);
+      i--;
+    }
   }
 
   }
