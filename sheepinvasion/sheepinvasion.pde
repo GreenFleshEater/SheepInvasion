@@ -236,7 +236,7 @@ void drawButton_moneyTower () {
 void drawButton_proTower () {
   if (mouseX > 525 && mouseX < 525+200 && mouseY > 630 && mouseY < 630+60){
     fill(#9b59b6);
-    rect(535, 630, 200, 50);
+    rect(525, 630, 250, 50);
 
     if (mousePressed==true){
       gameState = ProTowerBuy;
