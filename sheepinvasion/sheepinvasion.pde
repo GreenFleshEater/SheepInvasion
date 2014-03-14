@@ -363,7 +363,7 @@ class Enemy {
   }
 
   void run() {
-    shape(enemyBasic,x,y,75,50);
+    shape(enemyBasic,x,y,112,75);
   }
 };
 
