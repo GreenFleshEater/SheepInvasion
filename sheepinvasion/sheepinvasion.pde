@@ -320,6 +320,8 @@ class Shot {
   int r;
   color c;
 
+  boolean fail = false;
+
   Shot (float _x, float _y, int _r, color _c) {
     x=_x;
     y=_y;
@@ -330,6 +332,15 @@ class Shot {
   void move() {
     x+=300/frameRate;
   }
+
+boolean fail() {
+	if (x>=width-200) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
 
   void run() {
     fill (c);
@@ -446,6 +457,10 @@ void draw() {
   for (int i = 0; i < shots.size(); ++i) {
     shots.get(i).move();
     shots.get(i).run();
+    if (shots.get(i).fail()) {
+    	shots.remove(i);
+    	i--;
+    }
   }
   for (int i = 0; i < enemies.size(); ++i) {
     enemies.get(i).move();
