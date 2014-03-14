@@ -487,13 +487,6 @@ void draw() {
     }
   }
 
-  //Towerzerstörung durch Gegner!
-  for (int i = 0; i < enemies.size(); ++i) {
-    if (map.atPixel(enemies.get(i).x, enemies.get(i).y)=='T' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='M' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='P'){
-      map.setPixel(int(enemies.get(i).x),int(enemies.get(i).y), 'G');
-    }
-  }
-
   for (int i = 0; i < shots.size(); ++i) {
     shots.get(i).move();
     shots.get(i).run();
@@ -505,9 +498,14 @@ void draw() {
   for (int i = 0; i < enemies.size(); ++i) {
     enemies.get(i).move();
     enemies.get(i).run();
+
     if (enemies.get(i).dead()) {
       enemies.remove(i);
       i--;
+    }
+    //Towerzerstörung durch Gegner
+    if (map.atPixel(enemies.get(i).x, enemies.get(i).y)=='T' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='M' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='P'){
+      map.setPixel(int(enemies.get(i).x),int(enemies.get(i).y), 'G');
     }
   }
 
