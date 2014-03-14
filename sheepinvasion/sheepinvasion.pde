@@ -346,14 +346,14 @@ boolean fail() {
   }
 }
 
-  boolean hit() {
+  /*boolean hit() {
       if (x >= eX-60 && y >= eY-20 && y <= eY+20) {
         return true;
       }
       else {
         return false;
       }
-    }
+    }*/
 
   void run() {
     fill (c);
@@ -379,6 +379,7 @@ class Enemy {
     for (int i = 0; i < shots.size(); ++i) {
     if (shots.get(i).x >= x-60 && shots.get(i).y >= y-20 && shots.get(i).y <= y+20) {
       health -= 10;
+      shots.remove(i);
     }
   }
   }
@@ -489,7 +490,7 @@ void draw() {
   for (int i = 0; i < shots.size(); ++i) {
     shots.get(i).move();
     shots.get(i).run();
-    if (shots.get(i).fail() || shots.get(i).hit()) {
+    if (shots.get(i).fail()) {
       shots.remove(i);
       i--;
     }
