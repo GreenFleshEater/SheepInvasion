@@ -365,11 +365,6 @@ class Enemy {
   void run() {
     shape(enemyBasic,x,y,75,50);
   }
-
-  boolean enemyDie (Shot shot) {
-    float dX = shot.x;
-    float dY = shot.y;
-  }
 };
 
 void draw() {
