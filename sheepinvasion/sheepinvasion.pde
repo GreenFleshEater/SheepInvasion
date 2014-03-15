@@ -449,6 +449,8 @@ class Shot {
 class Enemy {
   float x;
   float y;
+  float yWiggle;
+
   int typ;
   float speed=(random(20,25));
   float health = 60;
@@ -458,6 +460,8 @@ class Enemy {
   Enemy (float _x, float j, int _typ) {
     x=_x;
     y=(j+1)*100-50;
+    yWiggle=y;
+
     typ=_typ;
   }
 
@@ -466,7 +470,7 @@ class Enemy {
 
     time+=1/frameRate;
 
-    y+=0.3*sin(time*15);
+    yWiggle+=0.3*sin(time*15);
 
     //Schaden wird ausgeteilt und Shots entfernt
     for (int i = 0; i < shots.size(); ++i) {
@@ -487,7 +491,7 @@ class Enemy {
   }
 
   void run() {
-    shape(enemyBasic,x,y,112,75);
+    shape(enemyBasic,x,yWiggle,112,75);
     fill(0);
     rect(x-112/2,y+40,102,5);
     fill(0,255,0);
