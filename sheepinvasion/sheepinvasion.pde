@@ -415,6 +415,16 @@ void draw() {
   drawPlayer();
   drawText();
 
+  //drawShots()
+  for (int i = 0; i < shots.size(); ++i) {
+    shots.get(i).run();
+  }
+
+  //drawEnemies()
+  for (int i = 0; i < enemies.size(); ++i) {
+    enemies.get(i).run();
+  }
+
    if (gameState==TowerBuy) {
     towerDraw(mouseX,mouseY);
   }
@@ -464,7 +474,7 @@ void draw() {
   }
 
   //schleife die gegner spawnt
-  //umso niedriger die Schwierigkeit, desto häufiger spawnen Gegner
+  //umso niedriger die Schwierigkeit, desto häufiger spawnen Gegner //spawnEnemies()
   if (enemyTimer >= 1) {
     for (i = 0; i < map.w; i++) {
       for (j = 0; j < map.h; j++) {
@@ -478,7 +488,7 @@ void draw() {
     enemyTimer = 0;
   }
 
-  //MoneyTower machen Geld!
+  //MoneyTower machen Geld! //generateMoney()
   for (i = 0; i < map.w; i++) {
     for (j = 0; j < map.h; j++) {
       if (map.at(i,j) == 'M'){
@@ -489,15 +499,14 @@ void draw() {
 
   for (int i = 0; i < shots.size(); ++i) {
     shots.get(i).move();
-    shots.get(i).run();
     if (shots.get(i).fail()) {
       shots.remove(i);
       i--;
     }
   }
+
   for (int i = 0; i < enemies.size(); ++i) {
     enemies.get(i).move();
-    enemies.get(i).run();
 
     //Towerzerstörung durch Gegner
     if (map.atPixel(enemies.get(i).x, enemies.get(i).y)=='T' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='M' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='P' && enemies.get(i).dead() == false){
