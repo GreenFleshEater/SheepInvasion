@@ -40,6 +40,8 @@ float money = 40;
 //Vektoren
 PShape towerBasic,towerMoney, towerPro, enemyBasic, enemyEvil;
 
+int score;
+
 //Schwierigkeit
 float difficulty = 0;
 
@@ -292,6 +294,11 @@ void checkMoney(){
   if (money>=50){
     drawButton_proTower();
   }
+
+  textSize(24);
+  textAlign(LEFT);
+  fill(#ecf0f1);
+  text("Score: "+score, 500,50);
 }
 
 void drawText() {
@@ -392,6 +399,7 @@ void moveEnemies() {
       if (enemies.get(i).dead()) {
         enemies.remove(i);
         i--;
+        score++;
       }
     }
   }
