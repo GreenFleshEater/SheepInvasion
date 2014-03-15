@@ -449,8 +449,10 @@ class Enemy {
   float x;
   float y;
   int typ;
-  float speed=(random(25,30));
+  float speed=(random(20,25));
   float health = 60;
+
+  float time=random(0,10); //time startet an zufälligem Punkt damit nicht alle synchron laufen
 
   Enemy (float _x, float j, int _typ) {
     x=_x;
@@ -460,6 +462,12 @@ class Enemy {
 
   void move() {
     x-=speed/frameRate;
+
+    time+=1/frameRate;
+
+    y+=0.3*sin(time*15);
+
+    //Schaden wird ausgeteilt und Shots entfernt
     for (int i = 0; i < shots.size(); ++i) {
       if (shots.get(i).x >= x-60 && shots.get(i).y >= y-20 && shots.get(i).y <= y+20) {
         health -= 3;
