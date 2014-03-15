@@ -53,9 +53,9 @@ void setup() {
   //Lade Spielmusik
   minim = new Minim (this);
   //Lade Spielmusik (später loopen und beenden lassen
-  player = minim.loadFile ("music/soundtrack.wav");
-  player.play ();
-  player.loop ();
+    player = minim.loadFile ("music/soundtrack.wav");
+    player.play ();
+    player.loop ();
   //frame.setResizable(true); //Fenster nicht mehr skalierbar, höchstens für debugging
   size( 900, 700 );
   restart();
@@ -125,16 +125,16 @@ void updatePlayer() {
     gameState=GAMEOVER;
   }
 
-   else if ( map.testTileFullyInsideRect( nextX-playerR, nextY-playerR, 2*playerR, 2*playerR, "P" ) ) {
-     gameState=GAMEOVER;
-  }
+  else if ( map.testTileFullyInsideRect( nextX-playerR, nextY-playerR, 2*playerR, 2*playerR, "P" ) ) {
+   gameState=GAMEOVER;
+ }
 
-  else if ( map.testTileFullyInsideRect( nextX-playerR, nextY-playerR, 2*playerR, 2*playerR, "E" ) ) {
-    gameState=GAMEWON;
-  }
+ else if ( map.testTileFullyInsideRect( nextX-playerR, nextY-playerR, 2*playerR, 2*playerR, "E" ) ) {
+  gameState=GAMEWON;
+}
 
-  playerX = nextX;
-  playerY = nextY;
+playerX = nextX;
+playerY = nextY;
 }
 
 // Maps input to an output, such that
@@ -179,16 +179,16 @@ void drawPlayer() {
     Map.TileReference nextHole = map.findClosestTileInRect (playerX, playerY, 200, 200, "H");
     stroke(255, 0, 255);
     if (nextHole!=null) line (playerX-screenLeftX, playerY-screenTopY,
-    nextHole.centerX-screenLeftX, nextHole.centerY-screenTopY);
+      nextHole.centerX-screenLeftX, nextHole.centerY-screenTopY);
 
     // draw line of sight to goal (until next wall) (understanding this is optional)
-    stroke(0, 255, 255);
-    Map.TileReference nextWall = map.findTileOnLine (playerX, playerY, goalX, goalY, "W");
-    if (nextWall!=null)
-      line (playerX-screenLeftX, playerY-screenTopY, nextWall.xPixel-screenLeftX, nextWall.yPixel-screenTopY);
-    else
-      line (playerX-screenLeftX, playerY-screenTopY, goalX-screenLeftX, goalY-screenTopY);
-  }
+  stroke(0, 255, 255);
+  Map.TileReference nextWall = map.findTileOnLine (playerX, playerY, goalX, goalY, "W");
+  if (nextWall!=null)
+    line (playerX-screenLeftX, playerY-screenTopY, nextWall.xPixel-screenLeftX, nextWall.yPixel-screenTopY);
+  else
+    line (playerX-screenLeftX, playerY-screenTopY, goalX-screenLeftX, goalY-screenTopY);
+}
 }
 // Malt die Buttons für die Tower und ändert auf Klick den GameState
 void drawButton_Tower () {
@@ -256,25 +256,25 @@ void drawButton_proTower () {
 
 // Pausiert das Spiel und lässt einen Tower auf das Feld bauen.
 void mousePressed() {
-      if (gameState==TowerBuy && map.atPixel(mouseX, mouseY) == 'G') {
-       map.setPixel(mouseX, mouseY, 'T');
-       money=money-15;
-       gameState=GAMERUNNING;
-      }
+  if (gameState==TowerBuy && map.atPixel(mouseX, mouseY) == 'G') {
+   map.setPixel(mouseX, mouseY, 'T');
+   money=money-15;
+   gameState=GAMERUNNING;
+ }
 
       //Pro Tower als Upgrade
       if (gameState==ProTowerBuy && map.atPixel(mouseX, mouseY) == 'T') {
        map.setPixel(mouseX, mouseY, 'P');
        money=money-50;
        gameState=GAMERUNNING;
-      }
-      if (gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'G') {
+     }
+     if (gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'G') {
        map.setPixel(mouseX, mouseY, 'M');
        money=money-25;
        gameState=GAMERUNNING;
-      }
+     }
 
-}
+   }
 // Überprüft wie viel Geld da ist und malt dann einen Button für mögliche Investitionen
 void checkMoney(){
   textSize(24);
@@ -313,6 +313,89 @@ void moneytowerDraw(float moneytowerX1,float moneytowerY1){
 void protowerDraw(float protowerX1,float protowerY1){
   shape(towerPro,protowerX1,protowerY1,50,75);
 }
+
+void addShots() {
+  if (shotTimer >=1) {
+    for (i = 0; i < map.w; i++) {
+      for (j = 0; j < map.h; j++) {
+        if (map.at(i,j) == 'T'){
+          shots.add(
+            new Shot((i+1)*100-28,j, 3, #2aff00)
+            );
+        }
+      }
+    }
+    shotTimer = 0;
+  }
+}
+
+void moveShots() {
+  for (int i = 0; i < shots.size(); ++i) {
+    shots.get(i).move();
+    //removeShots
+    if (shots.get(i).fail()) {
+      shots.remove(i);
+      i--;
+    }
+  }
+}
+void moveEnemies() {
+  for (int i = 0; i < enemies.size(); ++i) {
+    enemies.get(i).move();
+
+      //Towerzerstörung durch Gegner //destroyTower()
+      if (map.atPixel(enemies.get(i).x, enemies.get(i).y)=='T' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='M' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='P'){
+        map.setPixel(int(enemies.get(i).x),int(enemies.get(i).y), 'G');
+      }
+
+      //remove Enemies()
+      if (enemies.get(i).dead()) {
+        enemies.remove(i);
+        i--;
+      }
+    }
+  }
+
+  void generateMoney() {
+    for (i = 0; i < map.w; i++) {
+      for (j = 0; j < map.h; j++) {
+        if (map.at(i,j) == 'M'){
+          money+=10/frameRate;
+        }
+      }
+    }
+  }
+
+  void spawnEnemies() {
+    if (enemyTimer >= 1) {
+      for (i = 0; i < map.w; i++) {
+        for (j = 0; j < map.h; j++) {
+          if (map.at(i,j) == 'S' && random(0,difficulty*frameRate)<=1){
+            enemies.add(
+              new Enemy((i+1)*100+50,j, 1)
+              );
+          }
+        }
+      }
+      enemyTimer = 0;
+    }
+  }
+
+  void addProShots() {
+    if (proShotTimer >=0.4) {
+      for (i = 0; i < map.w; i++) {
+        for (j = 0; j < map.h; j++) {
+          if (map.at(i,j) == 'P'){
+            shots.add(
+              new Shot((i+1)*100-24,j, 4, #00e0ff)
+              );
+          }
+        }
+      }
+      proShotTimer = 0;
+    }
+  }
+
 // Der Schuss  wird hier berechnet und gemalt. 
 class Shot {
   float x;
@@ -337,14 +420,14 @@ class Shot {
   }
 
 
-boolean fail() {
-  if (x>=width+5) {
-    return true;
+  boolean fail() {
+    if (x>=width+5) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
-  else {
-    return false;
-  }
-}
 
   /*boolean hit() {
       if (x >= eX-60 && y >= eY-20 && y <= eY+20) {
@@ -355,11 +438,11 @@ boolean fail() {
       }
     }*/
 
-  void run() {
-    fill (c);
-    ellipse(x,y,r,r);
-  }
-};
+    void run() {
+      fill (c);
+      ellipse(x,y,r,r);
+    }
+  };
 // Der  Gegner wird hier berechnet und gespawnt
 class Enemy {
   float x;
@@ -425,11 +508,11 @@ void draw() {
     enemies.get(i).run();
   }
 
-   if (gameState==TowerBuy) {
+  if (gameState==TowerBuy) {
     towerDraw(mouseX,mouseY);
   }
 
-   if (gameState==MoneyTowerBuy) {
+  if (gameState==MoneyTowerBuy) {
     moneytowerDraw(mouseX,mouseY);
   }
 
@@ -443,86 +526,18 @@ void draw() {
     shotTimer+=1/frameRate;
     proShotTimer+=1/frameRate;
     enemyTimer+=1/frameRate;
-    
-    //money=money+1; //auskommentiert, da Geld momentan nur durch moneyTower generiert wird. Viel spannender, oder?
 
-  //addShots()
-  if (shotTimer >=1) {
-    for (i = 0; i < map.w; i++) {
-      for (j = 0; j < map.h; j++) {
-        if (map.at(i,j) == 'T'){
-          shots.add(
-            new Shot((i+1)*100-28,j, 3, #2aff00)
-          );
-        }
-      }
-    }
-    shotTimer = 0;
-  }
+    moveEnemies();
 
-  //addProShots()
-  if (proShotTimer >=0.4) {
-    for (i = 0; i < map.w; i++) {
-      for (j = 0; j < map.h; j++) {
-        if (map.at(i,j) == 'P'){
-          shots.add(
-            new Shot((i+1)*100-24,j, 4, #00e0ff)
-          );
-        }
-      }
-    }
-    proShotTimer = 0;
-  }
+    addShots();
 
-  //schleife die gegner spawnt
-  //umso niedriger die Schwierigkeit, desto häufiger spawnen Gegner //spawnEnemies()
-  if (enemyTimer >= 1) {
-    for (i = 0; i < map.w; i++) {
-      for (j = 0; j < map.h; j++) {
-        if (map.at(i,j) == 'S' && int(random(0,difficulty*frameRate))==0){
-          enemies.add(
-            new Enemy((i+1)*100+50,j, 1)
-          );
-        }
-      }
-    }
-    enemyTimer = 0;
-  }
+    addProShots();
 
-  //MoneyTower machen Geld! //generateMoney()
-  for (i = 0; i < map.w; i++) {
-    for (j = 0; j < map.h; j++) {
-      if (map.at(i,j) == 'M'){
-        money+=10/frameRate;
-      }
-    }
-  }
+    spawnEnemies();
 
-  //moveShots()
-  for (int i = 0; i < shots.size(); ++i) {
-    shots.get(i).move();
-    //removeShots
-    if (shots.get(i).fail()) {
-      shots.remove(i);
-      i--;
-    }
-  }
+    generateMoney();
 
-  //moveEnemies()
-  for (int i = 0; i < enemies.size(); ++i) {
-    enemies.get(i).move();
-
-    //Towerzerstörung durch Gegner //destroyTower()
-    if (map.atPixel(enemies.get(i).x, enemies.get(i).y)=='T' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='M' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='P' && enemies.get(i).dead() == false){
-      map.setPixel(int(enemies.get(i).x),int(enemies.get(i).y), 'G');
-    }
-
-    //remove Enemies()
-    if (enemies.get(i).dead()) {
-      enemies.remove(i);
-      i--;
-    }
-  }
+    moveShots();
 
   }
 
