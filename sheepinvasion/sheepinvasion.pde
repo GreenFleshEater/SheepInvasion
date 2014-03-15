@@ -56,7 +56,7 @@ void setup() {
   player = minim.loadFile ("music/soundtrack.wav");
   player.play ();
   player.loop ();
-  frame.setResizable(true);
+  //frame.setResizable(true); //Fenster nicht mehr skalierbar, höchstens für debugging
   size( 900, 700 );
   restart();
   frameRate(24);
@@ -338,7 +338,7 @@ class Shot {
 
 
 boolean fail() {
-  if (x>=width+shots.size()) {
+  if (x>=width+5) {
     return true;
   }
   else {
