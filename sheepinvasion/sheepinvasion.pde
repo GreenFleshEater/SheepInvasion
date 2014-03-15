@@ -362,7 +362,7 @@ void spawnEnemies() {
     for (i = 0; i < map.w; i++) {
       for (j = 0; j < map.h; j++) {
         if (map.at(i,j) == 'S' && random(0,100)<=difficulty){
-          if(random(30,100)>=difficulty)
+          if(random(20,100)>=difficulty)
             enemies.add(
               new Enemy((i+1)*100+50,j, 1)
             );
