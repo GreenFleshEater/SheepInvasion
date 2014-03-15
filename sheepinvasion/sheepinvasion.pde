@@ -41,7 +41,7 @@ float money = 300;
 PShape towerBasic,towerMoney, towerPro, enemyBasic;
 
 //Schwierigkeit
-float difficulty = 1;
+float difficulty = 10;
 
 float time;
 int GAMEWAIT=0, GAMERUNNING=1, GAMEOVER=2, GAMEWON=3, TowerBuy=4, MoneyTowerBuy=5, ProTowerBuy=6;
@@ -356,10 +356,10 @@ void moveShots() {
 }
 
 void spawnEnemies() {
-  if (enemyTimer >= 1) {
+  if (enemyTimer >= 5) {
     for (i = 0; i < map.w; i++) {
       for (j = 0; j < map.h; j++) {
-        if (map.at(i,j) == 'S' && random(0,frameRate)<=difficulty){
+        if (map.at(i,j) == 'S' && random(0,100)<=difficulty){
           enemies.add(
             new Enemy((i+1)*100+50,j, 1)
             );
@@ -367,6 +367,7 @@ void spawnEnemies() {
       }
     }
     enemyTimer = 0;
+    difficulty+=5;
   }
 }
 
@@ -506,9 +507,6 @@ void draw() {
   checkMoney();
   drawPlayer();
   drawText();
-
-  //erhöhe Schwierigkeit zum Test
-  difficulty+=0.02/frameRate;
 
   //drawShots()
   for (int i = 0; i < shots.size(); ++i) {
