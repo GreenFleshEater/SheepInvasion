@@ -38,7 +38,7 @@ AudioPlayer player;
 //Money
 float money = 40;
 //Vektoren
-PShape towerBasic,towerMoney, towerPro, enemyBasic;
+PShape towerBasic,towerMoney, towerPro, enemyBasic, enemyEvil;
 
 //Schwierigkeit
 float difficulty = 0;
@@ -66,7 +66,9 @@ void setup() {
   towerBasic = loadShape("images/towerBasic.svg");
   towerMoney = loadShape("images/towerMoney.svg");
   towerPro = loadShape("images/towerPro.svg");
+
   enemyBasic = loadShape("images/enemyBasic.svg");
+  enemyEvil = loadShape("images/enemyEvil.svg");
 }
 
 void restart () {
@@ -360,9 +362,15 @@ void spawnEnemies() {
     for (i = 0; i < map.w; i++) {
       for (j = 0; j < map.h; j++) {
         if (map.at(i,j) == 'S' && random(0,100)<=difficulty){
-          enemies.add(
-            new Enemy((i+1)*100+50,j, 1)
+          if(random(30,100)>=difficulty)
+            enemies.add(
+              new Enemy((i+1)*100+50,j, 1)
             );
+          else {
+            enemies.add(
+              new Enemy((i+1)*100+50,j, 2)
+            );
+          }
         }
       }
     }
@@ -453,7 +461,8 @@ class Enemy {
 
   int typ;
   float speed=(random(20,25));
-  float health = 60;
+
+  float health;
 
   float time=random(0,10); //time startet an zufälligem Punkt damit nicht alle synchron laufen
 
@@ -463,6 +472,14 @@ class Enemy {
     yWiggle=y;
 
     typ=_typ;
+
+    if (typ == 1) {
+      health = 60;
+    }
+    else if (typ ==2){
+      health = 150;
+    }
+
   }
 
   void move() {
@@ -491,11 +508,21 @@ class Enemy {
   }
 
   void run() {
+    if (typ ==1) {
     shape(enemyBasic,x,yWiggle,112,75);
     fill(0);
     rect(x-112/2,y+40,102,5);
-    fill(0,255,0);
+    fill(0,180,0);
     rect(x-112/2+1,y+41,map(health,0,60,0,100),3);
+    }
+
+    if (typ ==2) {
+    shape(enemyEvil,x,yWiggle,112,75);
+    fill(0);
+    rect(x-112/2,y+40,102,7);
+    fill(0,250,0);
+    rect(x-112/2+1,y+41,map(health,0,150,0,100),5);
+    }
   }
 };
 
