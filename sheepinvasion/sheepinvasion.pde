@@ -469,7 +469,7 @@ class Enemy {
 
     //Schaden wird ausgeteilt und Shots entfernt
     for (int i = 0; i < shots.size(); ++i) {
-      if (shots.get(i).x >= x-60 && shots.get(i).y >= y-20 && shots.get(i).y <= y+20) {
+      if (shots.get(i).x >= x-60 && shots.get(i).x <= x+60 && shots.get(i).y >= y-20 && shots.get(i).y <= y+20) {
         health -= 3;
         shots.remove(i);
       }
