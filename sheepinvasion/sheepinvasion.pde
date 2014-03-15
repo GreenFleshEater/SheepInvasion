@@ -36,12 +36,12 @@ Minim minim;
 AudioPlayer player;
 
 //Money
-float money = 300;
+float money = 40;
 //Vektoren
 PShape towerBasic,towerMoney, towerPro, enemyBasic;
 
 //Schwierigkeit
-float difficulty = 10;
+float difficulty = 0;
 
 float time;
 int GAMEWAIT=0, GAMERUNNING=1, GAMEOVER=2, GAMEWON=3, TowerBuy=4, MoneyTowerBuy=5, ProTowerBuy=6;
@@ -367,7 +367,7 @@ void spawnEnemies() {
       }
     }
     enemyTimer = 0;
-    difficulty+=5;
+    difficulty+=2;
   }
 }
 
@@ -392,7 +392,7 @@ void moveEnemies() {
     for (i = 0; i < map.w; i++) {
       for (j = 0; j < map.h; j++) {
         if (map.at(i,j) == 'M'){
-          money+=10/frameRate;
+          money+=1/frameRate;
         }
       }
     }
