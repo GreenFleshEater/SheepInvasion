@@ -438,18 +438,19 @@ void draw() {
   }
 
   if (gameState==GAMERUNNING) {
-    //updatePlayer();
+    //verschiedene Timer werden hochgezählt
     time+=1/frameRate;
     shotTimer+=1/frameRate;
     proShotTimer+=1/frameRate;
     enemyTimer+=1/frameRate;
+    
     //money=money+1; //auskommentiert, da Geld momentan nur durch moneyTower generiert wird. Viel spannender, oder?
 
-  //schleife die prüft wo türme sind, vorerst ellipsen als platzhalter
+  //addShots()
   if (shotTimer >=1) {
     for (i = 0; i < map.w; i++) {
       for (j = 0; j < map.h; j++) {
-        if (map.at(i,j) == 'T'){ //&&check ob wert noch nicht in array ist
+        if (map.at(i,j) == 'T'){
           shots.add(
             new Shot((i+1)*100-28,j, 3, #2aff00)
           );
@@ -459,7 +460,7 @@ void draw() {
     shotTimer = 0;
   }
 
-  //schleife die prüft wo türme sind, vorerst ellipsen als platzhalter
+  //addProShots()
   if (proShotTimer >=0.4) {
     for (i = 0; i < map.w; i++) {
       for (j = 0; j < map.h; j++) {
@@ -497,22 +498,26 @@ void draw() {
     }
   }
 
+  //moveShots()
   for (int i = 0; i < shots.size(); ++i) {
     shots.get(i).move();
+    //removeShots
     if (shots.get(i).fail()) {
       shots.remove(i);
       i--;
     }
   }
 
+  //moveEnemies()
   for (int i = 0; i < enemies.size(); ++i) {
     enemies.get(i).move();
 
-    //Towerzerstörung durch Gegner
+    //Towerzerstörung durch Gegner //destroyTower()
     if (map.atPixel(enemies.get(i).x, enemies.get(i).y)=='T' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='M' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='P' && enemies.get(i).dead() == false){
       map.setPixel(int(enemies.get(i).x),int(enemies.get(i).y), 'G');
     }
 
+    //remove Enemies()
     if (enemies.get(i).dead()) {
       enemies.remove(i);
       i--;
