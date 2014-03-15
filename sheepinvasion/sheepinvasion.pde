@@ -25,10 +25,10 @@ float shotTimer, proShotTimer, enemyTimer;
 //objects
 //shots
 ArrayList<Shot> shots = new ArrayList<Shot>();
-Shot myShot;
+//Shot myShot;
 //enemies
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-Enemy myEnemy;
+//Enemy myEnemy;
 
 //minim Import
 import ddf.minim.*;
@@ -41,7 +41,7 @@ float money = 300;
 PShape towerBasic,towerMoney, towerPro, enemyBasic;
 
 //Schwierigkeit
-int difficulty = 1;
+float difficulty = 1;
 
 float time;
 int GAMEWAIT=0, GAMERUNNING=1, GAMEOVER=2, GAMEWON=3, TowerBuy=4, MoneyTowerBuy=5, ProTowerBuy=6;
@@ -329,6 +329,21 @@ void addShots() {
   }
 }
 
+void addProShots() {
+  if (proShotTimer >=0.4) {
+    for (i = 0; i < map.w; i++) {
+      for (j = 0; j < map.h; j++) {
+        if (map.at(i,j) == 'P'){
+          shots.add(
+            new Shot((i+1)*100-24,j, 4, #00e0ff)
+            );
+        }
+      }
+    }
+    proShotTimer = 0;
+  }
+}
+
 void moveShots() {
   for (int i = 0; i < shots.size(); ++i) {
     shots.get(i).move();
@@ -339,6 +354,22 @@ void moveShots() {
     }
   }
 }
+
+void spawnEnemies() {
+  if (enemyTimer >= 1) {
+    for (i = 0; i < map.w; i++) {
+      for (j = 0; j < map.h; j++) {
+        if (map.at(i,j) == 'S' && random(0,frameRate)<=difficulty){
+          enemies.add(
+            new Enemy((i+1)*100+50,j, 1)
+            );
+        }
+      }
+    }
+    enemyTimer = 0;
+  }
+}
+
 void moveEnemies() {
   for (int i = 0; i < enemies.size(); ++i) {
     enemies.get(i).move();
@@ -363,36 +394,6 @@ void moveEnemies() {
           money+=10/frameRate;
         }
       }
-    }
-  }
-
-  void spawnEnemies() {
-    if (enemyTimer >= 1) {
-      for (i = 0; i < map.w; i++) {
-        for (j = 0; j < map.h; j++) {
-          if (map.at(i,j) == 'S' && random(0,difficulty*frameRate)<=1){
-            enemies.add(
-              new Enemy((i+1)*100+50,j, 1)
-              );
-          }
-        }
-      }
-      enemyTimer = 0;
-    }
-  }
-
-  void addProShots() {
-    if (proShotTimer >=0.4) {
-      for (i = 0; i < map.w; i++) {
-        for (j = 0; j < map.h; j++) {
-          if (map.at(i,j) == 'P'){
-            shots.add(
-              new Shot((i+1)*100-24,j, 4, #00e0ff)
-              );
-          }
-        }
-      }
-      proShotTimer = 0;
     }
   }
 
@@ -497,6 +498,9 @@ void draw() {
   checkMoney();
   drawPlayer();
   drawText();
+
+  //erhöhe Schwierigkeit zum Test
+  difficulty+=0.02/frameRate;
 
   //drawShots()
   for (int i = 0; i < shots.size(); ++i) {
