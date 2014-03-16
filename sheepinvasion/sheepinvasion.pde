@@ -34,6 +34,8 @@ int score;
 
 //Schwierigkeit
 float difficulty = 0;
+//Levelvariable um die Karten zu Kontrollieren
+int lvl;
 
 float time;
 int GAMEWAIT=0, GAMERUNNING=1, GAMEOVER=2, GAMEWON=3, TowerBuy=4, MoneyTowerBuy=5, ProTowerBuy=6;
@@ -50,7 +52,7 @@ void setup() {
     player.loop ();
   //frame.setResizable(true); //Fenster nicht mehr skalierbar, höchstens für debugging
   size( 900, 700 );
-  restart();
+  restart(1);
   frameRate(24);
 
   shapeMode(CENTER);
@@ -63,21 +65,62 @@ void setup() {
   enemyEvil = loadShape("images/enemyEvil.svg");
 }
 
-void restart () {
-  map = new Map( "levelthree.map");
-  for (int i = 0; i < enemies.size(); ++i) {
-  	enemies.remove(i);
-      i--;
-  }
-    for (int i = 0; i < shots.size(); ++i) {
-  	shots.remove(i);
-      i--;
-  }
-  score = 0;
-  money = 40;
+void restart (int lvl) {
+	map = new Map( "level"+lvl+".map");
+	for (int i = 0; i < enemies.size(); ++i) {
+		enemies.remove(i);
+		i--;
+	}
+	for (int i = 0; i < shots.size(); ++i) {
+		shots.remove(i);
+		i--;
+	}
+	if (lvl == 1) {
+		score = 0;
+		money = 40;
+		difficulty = 20;
+	}
+	if (lvl == 2) {
+		difficulty = 30;
+		money = 40;
+		score = 11;
+	}
+	if (lvl == 3) {
+		difficulty = 40;
+		money = 40;
+		score = 21;
+	}
 
-  time=0;
-  gameState = GAMEWAIT;
+	time=0;
+	gameState = GAMEWAIT;
+}
+
+void levelSwitch() {
+	if (score==10) {
+		restart(2);
+	}
+	else if (score==20) {
+		restart(3);
+	}
+
+	if (score<9) {
+		fill(#ffffff);
+		textSize(18);
+		textAlign(CENTER);
+		text("Level 1", 200/2+545,33);
+	}
+	else if (score>=10) {
+		fill(#ffffff);
+		textSize(18);
+		textAlign(CENTER);
+		text("Level 2", 200/2+545,33);
+	}
+	else if (score>=20) {
+		fill(#ffffff);
+		textSize(18);
+		textAlign(CENTER);
+		text("Level 3", 200/2+545,33);
+	}
 }
 
 void drawMap() {
@@ -314,7 +357,7 @@ void moveEnemies() {
     }
   }
 
-// Der Schuss  wird hier berechnet und gemalt. 
+// Der Schuss  wird hier berechnet und gemalt.
 class Shot {
   float x;
   float y;
@@ -436,6 +479,7 @@ void draw() {
   playerY = mouseY;
   checkMoney();
   drawPlayer();
+  levelSwitch();
 
   //drawShots()
   for (int i = 0; i < shots.size(); ++i) {
@@ -478,11 +522,12 @@ void draw() {
 
     moveShots();
 
+
   }
 
   else if (keyPressed && key=='r') {
     if (gameState==GAMEWAIT) gameState=GAMERUNNING;
-    else if (gameState==GAMEOVER || gameState==GAMEWON) restart();
+    else if (gameState==GAMEOVER || gameState==GAMEWON) restart(1);
   }
   drawText();
 
