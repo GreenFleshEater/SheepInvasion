@@ -78,15 +78,15 @@ void restart (int lvl) {
 	if (lvl == 1) {
 		score = 0;
 		money = 40;
-		difficulty = 20;
+		difficulty = 18;
 	}
 	if (lvl == 2) {
-		difficulty = 30;
+		difficulty = 10;
 		money = 40;
 		score = 11;
 	}
 	if (lvl == 3) {
-		difficulty = 40;
+		difficulty = 5;
 		money = 40;
 		score = 21;
 	}
@@ -99,27 +99,30 @@ void levelSwitch() {
 	if (score==10) {
 		restart(2);
 	}
-	else if (score==20) {
+	else if (score==50) {
 		restart(3);
 	}
+	else if (score==50) {
+		gameState = GAMEWON;
+	}
 
-	if (score<9) {
-		fill(#ffffff);
-		textSize(18);
-		textAlign(CENTER);
-		text("Level 1", 200/2+545,33);
+	if (score<=10) {
+		textSize(24);
+		textAlign(LEFT);
+		fill(#ecf0f1);
+		text("Level 1", 200/2+545,50);
 	}
 	else if (score>=10) {
-		fill(#ffffff);
-		textSize(18);
-		textAlign(CENTER);
-		text("Level 2", 200/2+545,33);
+		textSize(24);
+		textAlign(LEFT);
+		fill(#ecf0f1);
+		text("Level 2", 200/2+545,50);
 	}
 	else if (score>=20) {
-		fill(#ffffff);
-		textSize(18);
-		textAlign(CENTER);
-		text("Level 3", 200/2+545,33);
+		textSize(24);
+		textAlign(LEFT);
+		fill(#ecf0f1);
+		text("Level 3", 200/2+545,50);
 	}
 }
 
@@ -139,66 +142,60 @@ void drawPlayer() {
 }
 // Malt die Buttons für die Tower und ändert auf Klick den GameState
 void drawButton_Tower () {
+  textSize(18);
+  textAlign(CENTER);
   if (mouseX > 25 && mouseX < 25+200 && mouseY > 630 && mouseY < 630+50){
     fill(#9b59b6);
     rect(25, 630, 200, 50);
 
     if (mousePressed==true){
       gameState = TowerBuy;
-      fill(#ffffff);
-      rect(25, 630, 200, 50);
     }
   }
   else{
     fill(#f1c40f);
     rect(25, 630, 200, 50);
+    fill(#ffffff);
+  	text("Schussturm (15)", 200/2+25,630+33);
   }
-  fill(#ffffff);
-  textSize(18);
-  textAlign(CENTER);
-  text("Schussturm (15)", 200/2+25,630+33);
 }
 
 void drawButton_moneyTower () {
+  textSize(18);
+  textAlign(CENTER);	
   if (mouseX > 280 && mouseX < 280+200 && mouseY > 630 && mouseY < 630+50){
     fill(#9b59b6);
     rect(280, 630, 200, 50);
 
     if (mousePressed==true){
       gameState = MoneyTowerBuy;
-      fill(#ffffff);
-      rect(280, 630, 200, 50);
     }
   }
   else{
     fill(#f1c40f);
     rect(280, 630, 200, 50);
+    fill(#ffffff);
+    text("Geldturm (25)", 200/2+280,630+33);
   }
-  fill(#ffffff);
-  textSize(18);
-  textAlign(CENTER);
-  text("Geldturm (25)", 200/2+280,630+33);
 }
 
 void drawButton_proTower () {
+	textSize(18);
+	textAlign(CENTER);
   if (mouseX > 525 && mouseX < 525+200 && mouseY > 630 && mouseY < 630+60){
     fill(#9b59b6);
     rect(525, 630, 250, 50);
 
     if (mousePressed==true){
       gameState = ProTowerBuy;
-      fill(#ffffff);
-      rect(525, 630, 200, 60);
     }
   }
   else{
     fill(#f1c40f);
     rect(525, 630, 250, 50);
+    fill(#ffffff);
+    text("Schussturm Upgrade (50)", 200/2+545,630+33);
   }
-  fill(#ffffff);
-  textSize(18);
-  textAlign(CENTER);
-  text("Schussturm Upgrade (50)", 200/2+545,630+33);
 }
 
 // Pausiert das Spiel und lässt einen Tower auf das Feld bauen.
@@ -492,15 +489,42 @@ void draw() {
   }
 
   if (gameState==TowerBuy) {
-    towerDraw(mouseX,mouseY);
+  	textSize(18);
+  	textAlign(CENTER);
+  	towerDraw(mouseX,mouseY);
+  	fill(#ffffff);
+  	rect(25, 630, 200, 50);
+  	fill(#9b59b6);
+  	text("Abbruch mit a", 200/2+25,630+33);
+  	if (keyPressed && key=='a') {
+  		gameState = GAMERUNNING;
+  	}
   }
 
   if (gameState==MoneyTowerBuy) {
-    moneytowerDraw(mouseX,mouseY);
+  	textSize(18);
+  	textAlign(CENTER);
+  	moneytowerDraw(mouseX,mouseY);
+  	fill(#ffffff);
+  	rect(280, 630, 200, 50);
+  	fill(#f1c40f);
+  	text("Abbruch mit a", 200/2+280,630+33);    
+  	if (keyPressed && key=='a') {
+  		gameState = GAMERUNNING;
+  	}
   }
 
   if (gameState==ProTowerBuy) {
-    protowerDraw(mouseX,mouseY);
+  	textSize(18);
+  	textAlign(CENTER);
+  	protowerDraw(mouseX,mouseY);
+  	fill(#ffffff);
+  	rect(525, 630, 200, 60);
+  	fill(#9b59b6);	  
+  	text("Abbruch mit a", 200/2+545,630+33);    
+  	if (keyPressed && key=='a') {
+  		gameState = GAMERUNNING;
+  	}
   }
 
   if (gameState==GAMERUNNING) {
