@@ -162,7 +162,7 @@ void drawButton_Tower () {
 
 void drawButton_moneyTower () {
   textSize(18);
-  textAlign(CENTER);	
+  textAlign(CENTER);
   if (mouseX > 280 && mouseX < 280+200 && mouseY > 630 && mouseY < 630+50){
     fill(#9b59b6);
     rect(280, 630, 200, 50);
@@ -491,11 +491,11 @@ void draw() {
   if (gameState==TowerBuy) {
   	textSize(18);
   	textAlign(CENTER);
-  	towerDraw(mouseX,mouseY);
   	fill(#ffffff);
   	rect(25, 630, 200, 50);
   	fill(#9b59b6);
   	text("Abbruch mit a", 200/2+25,630+33);
+  	towerDraw(mouseX,mouseY);
   	if (keyPressed && key=='a') {
   		gameState = GAMERUNNING;
   	}
@@ -504,11 +504,11 @@ void draw() {
   if (gameState==MoneyTowerBuy) {
   	textSize(18);
   	textAlign(CENTER);
-  	moneytowerDraw(mouseX,mouseY);
   	fill(#ffffff);
   	rect(280, 630, 200, 50);
   	fill(#f1c40f);
-  	text("Abbruch mit a", 200/2+280,630+33);    
+  	text("Abbruch mit a", 200/2+280,630+33);
+  	moneytowerDraw(mouseX,mouseY);
   	if (keyPressed && key=='a') {
   		gameState = GAMERUNNING;
   	}
@@ -517,11 +517,11 @@ void draw() {
   if (gameState==ProTowerBuy) {
   	textSize(18);
   	textAlign(CENTER);
-  	protowerDraw(mouseX,mouseY);
   	fill(#ffffff);
-  	rect(525, 630, 200, 60);
-  	fill(#9b59b6);	  
-  	text("Abbruch mit a", 200/2+545,630+33);    
+  	rect(525, 630, 250, 50);
+  	fill(#9b59b6);
+  	text("Abbruch mit a", 200/2+545,630+33);
+  	protowerDraw(mouseX,mouseY);
   	if (keyPressed && key=='a') {
   		gameState = GAMERUNNING;
   	}
