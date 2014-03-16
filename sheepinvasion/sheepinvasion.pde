@@ -2,16 +2,6 @@ Map map;
 // Position of player center in level coordinates
 float playerX, playerY;
 // Velocity of player
-float vx, vy;
-// Speed at which the player moves
-float speed = 150;
-// The player is a circle and this is its radius
-float playerR = 10;
-// Position of the goal center
-// Will be set by restart
-float goalX=0, goalY=0;
-// Whether to illustrate special functions
-boolean showSpecialFunctions=false;
 
 // left / top border of the screen in map coordinates
 float screenLeftX, screenTopY;
@@ -75,92 +65,20 @@ void setup() {
 
 void restart () {
   map = new Map( "levelthree.map");
-  /*for ( int x = 0; x < map.w; ++x ) {
-    for ( int y = 0; y < map.h; ++y ) {
-      if ( map.at(x, y) == 'S' ) {
-        playerX = map.centerXOfTile (x);
-        playerY = map.centerYOfTile (y);
-        map.set(x, y, 'F');
-      }
-      if ( map.at(x, y) == 'E' ) {
-        goalX = map.centerXOfTile (x);
-        goalY = map.centerYOfTile (y);
-      }
-    }
-  }*/
+  for (int i = 0; i < enemies.size(); ++i) {
+  	enemies.remove(i);
+      i--;
+  }
+    for (int i = 0; i < shots.size(); ++i) {
+  	shots.remove(i);
+      i--;
+  }
+  score = 0;
+  money = 40;
+
   time=0;
-  vx = 0;
-  vy = 0;
   gameState = GAMEWAIT;
 }
-
-void keyPressed() {
-  if ( keyCode == UP && vy == 0 ) {
-    vy = -speed;
-    vx = 0;
-  }
-  else if ( keyCode == DOWN && vy == 0 ) {
-    vy = speed;
-    vx = 0;
-  }
-  else if ( keyCode == LEFT && vx == 0 ) {
-    vx = -speed;
-    vy = 0;
-  }
-  else if ( keyCode == RIGHT && vx == 0 ) {
-    vx = speed;
-    vy = 0;
-  }
-  else if ( keyCode == 'S' ) showSpecialFunctions = !showSpecialFunctions;
-}
-
-
-void updatePlayer() {
-  // update player
-  float nextX = playerX + vx/frameRate,
-  nextY = playerY + vy/frameRate;
-  if ( map.testTileInRect( nextX-playerR, nextY-playerR, 2*playerR, 2*playerR, "W_" ) ) {
-    vx = -vx;
-    vy = -vy;
-    nextX = playerX;
-    nextY = playerY;
-  }
-  else if ( map.testTileFullyInsideRect( nextX-playerR, nextY-playerR, 2*playerR, 2*playerR, "H" ) ) {
-    gameState=GAMEOVER;
-  }
-
-  else if ( map.testTileFullyInsideRect( nextX-playerR, nextY-playerR, 2*playerR, 2*playerR, "P" ) ) {
-   gameState=GAMEOVER;
- }
-
- else if ( map.testTileFullyInsideRect( nextX-playerR, nextY-playerR, 2*playerR, 2*playerR, "E" ) ) {
-  gameState=GAMEWON;
-}
-
-playerX = nextX;
-playerY = nextY;
-}
-
-// Maps input to an output, such that
-//     - input0 is mapped to output0
-//     - a increasing input by 1 increases output by factor
-float map (float input, float input0, float output0, float factor) {
-  return factor*(input-input0)+output0;
-}
-
-void drawBackground() {
-  // Explanation to the computation of x and y:
-  // If screenLeftX increases by 1, i.e. the main level moves 1 to the left on screen,
-  // we want the background map to move 0.5 to the left, i.e. x decrease by 0.5
-  // Further, imagine the center of the screen (width/2) corresponds to the center of the level
-  // (map.widthPixel), i.e. screenLeftX=map.widthPixel()/2-width/2. Then we want
-  // the center of the background image (backgroundImg.width/2) also correspond to the screen
-  // center (width/2), i.e. x=-backgroundImg.width/2+width/2.
-  float x = map (screenLeftX, map.widthPixel()/2-width/2, -backgroundImg.width/2+width/2, -0.5);
-  float y = map (screenTopY, map.heightPixel()/2-height/2, -backgroundImg.height/2+height/2, -0.5);
-  image (backgroundImg, x, y);
-}
-
 
 void drawMap() {
   // The left border of the screen is at screenLeftX in map coordinates
@@ -175,24 +93,6 @@ void drawPlayer() {
   noStroke();
   fill(0, 255, 255);
   ellipseMode(CENTER);
-  //ellipse( playerX - screenLeftX, playerY - screenTopY, 2*playerR, 2*playerR );
-
-  // understanding this is optional, skip at first sight
-  if (showSpecialFunctions) {
-    // draw a line to the next hole
-    Map.TileReference nextHole = map.findClosestTileInRect (playerX, playerY, 200, 200, "H");
-    stroke(255, 0, 255);
-    if (nextHole!=null) line (playerX-screenLeftX, playerY-screenTopY,
-      nextHole.centerX-screenLeftX, nextHole.centerY-screenTopY);
-
-    // draw line of sight to goal (until next wall) (understanding this is optional)
-  stroke(0, 255, 255);
-  Map.TileReference nextWall = map.findTileOnLine (playerX, playerY, goalX, goalY, "W");
-  if (nextWall!=null)
-    line (playerX-screenLeftX, playerY-screenTopY, nextWall.xPixel-screenLeftX, nextWall.yPixel-screenTopY);
-  else
-    line (playerX-screenLeftX, playerY-screenTopY, goalX-screenLeftX, goalY-screenTopY);
-}
 }
 // Malt die Buttons für die Tower und ändert auf Klick den GameState
 void drawButton_Tower () {
@@ -305,8 +205,8 @@ void drawText() {
   textAlign(CENTER, CENTER);
   fill(0, 255, 0);
   textSize(40);
-  if (gameState==GAMEWAIT) text ("press space to start", width/2, height/2);
-  else if (gameState==GAMEOVER) text ("game over", width/2, height/2);
+  if (gameState==GAMEWAIT) text ("Press Space to Start", width/2, height/2);
+  else if (gameState==GAMEOVER) text ("Game Over - Press R", width/2, height/2);
   else if (gameState==GAMEWON) text ("won in "+ round(time) + " seconds", width/2, height/2);
 }
 
@@ -447,15 +347,6 @@ class Shot {
     }
   }
 
-  /*boolean hit() {
-      if (x >= eX-60 && y >= eY-20 && y <= eY+20) {
-        return true;
-      }
-      else {
-        return false;
-      }
-    }*/
-
     void run() {
       fill (c);
       ellipse(x,y,r,r);
@@ -531,21 +422,20 @@ class Enemy {
     fill(0,250,0);
     rect(x-112/2+1,y+41,map(health,0,150,0,100),5);
     }
+
+    if (x<=0) {
+    	gameState = GAMEOVER;
+    }
   }
 };
 
 void draw() {
-  //screenLeftX = playerX - width/2;
-  //screenTopY  = (map.heightPixel() - height)/2;
-
-  //drawBackground();
   background(128);
   drawMap();
   playerX = mouseX;
   playerY = mouseY;
   checkMoney();
   drawPlayer();
-  drawText();
 
   //drawShots()
   for (int i = 0; i < shots.size(); ++i) {
@@ -590,9 +480,10 @@ void draw() {
 
   }
 
-  else if (keyPressed && key==' ') {
+  else if (keyPressed && key=='r') {
     if (gameState==GAMEWAIT) gameState=GAMERUNNING;
     else if (gameState==GAMEOVER || gameState==GAMEWON) restart();
   }
+  drawText();
 
 }
