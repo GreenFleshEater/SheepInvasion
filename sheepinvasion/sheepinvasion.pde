@@ -20,6 +20,7 @@ ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 import ddf.minim.*;
 Minim minim;
 AudioPlayer player;
+AudioSnippet shot,proshot,hit,dead,explosion;
 
 //Money
 float money = 40;
@@ -42,8 +43,13 @@ PImage backgroundImg;
 void setup() {
   //Lade Spielmusik
   minim = new Minim (this);
-  //Lade Spielmusik (später loopen und beenden lassen
-  player = minim.loadFile ("music/soundtrack.wav");
+  //Lade Spielmusik (später loopen und beenden lassen)
+  player = minim.loadFile ("sounds/soundtrack.wav");
+  shot = minim.loadSnippet ("sounds/shot.wav");
+  proshot = minim.loadSnippet ("sounds/proshot.wav");
+  hit = minim.loadSnippet ("sounds/hit.wav");
+  dead = minim.loadSnippet ("sounds/dead.wav");
+  explosion = minim.loadSnippet ("sounds/explosion.wav");
   player.play ();
   player.loop ();
   size( 900, 700 );
@@ -302,6 +308,7 @@ void addShots() {
           shots.add(
             new Shot((i+1)*100-28,j, 3, #2aff00)
             );
+          shot.play(0);
         }
       }
     }
@@ -317,6 +324,7 @@ void addProShots() {
 					shots.add(
 						new Shot((i+1)*100-24,j, 4, #00e0ff)
 						);
+					proshot.play(0);
 				}
 			}
 		}
@@ -366,6 +374,7 @@ class Enemy {
       if (shots.get(i).x >= x-60 && shots.get(i).x <= x+60 && shots.get(i).y >= y-20 && shots.get(i).y <= y+20) {
         health -= 3;
         shots.remove(i);
+        hit.play(0);
       }
     }
   }
@@ -431,6 +440,7 @@ void moveEnemies() {
       // Wenn der Gegner ein Feld mit einem Turm erreicht, wird das Feld ausgetauscht
       if (map.atPixel(enemies.get(i).x, enemies.get(i).y)=='T' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='M' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='P'){
       	map.setPixel(int(enemies.get(i).x),int(enemies.get(i).y), 'G');
+      	explosion.play(0);
       }
 
       //Hier wird geprüft ob der Gegner tot ist (siehe Boolean in der Klasse). Starb der Gegner werden der Geld- und Punktestand höher gesetzt.
@@ -439,6 +449,7 @@ void moveEnemies() {
       	i--;
       	score++;
       	money+=5;
+      	dead.play(0);
       }
   }
 }
