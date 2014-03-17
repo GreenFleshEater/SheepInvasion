@@ -239,10 +239,21 @@ void checkMoney(){
 void drawText() {
 	textAlign(CENTER, CENTER);
 	fill(0, 255, 0);
-	textSize(40);
-	if (gameState==GAMEWAIT) text ("Press Space to Start", width/2, height/2);
-	else if (gameState==GAMEOVER) text ("Game Over - Press R", width/2, height/2);
-	else if (gameState==GAMEWON) text ("won in "+ round(time) + " seconds", width/2, height/2);
+
+	if (gameState==GAMEWAIT) {
+		fill(0, 0, 0, 200);
+		rect(0,0,width, height);
+		//background(0, 0, 0, 0.5);
+
+		fill(0, 255, 0);
+		textSize(16);
+		text ("Baue Schusstürme um die Schafe aufzuhalten", width/2, height/2-150);
+		text ("Geldtürme generieren Münzen und sind essentiell, um weitere Türme bauen zu können", width/2, height/2);
+		text ("Drücke einen Button um anzufangen", width/2, height/2+150);
+	}
+
+	else if (gameState==GAMEOVER) {textSize(40); text("Game Over - Press R", width/2, height/2);}
+	else if (gameState==GAMEWON) {textSize(40); text("won in "+ round(time) + " seconds", width/2, height/2);}
 }
 
 // Malt die Tower für ein besseres Verständnis während des Kaufvorgangs
@@ -462,7 +473,6 @@ void draw() {
   drawMap();
   playerX = mouseX;
   playerY = mouseY;
-  checkMoney();
   levelSwitch();
 
   for (int i = 0; i < shots.size(); ++i) {
@@ -471,6 +481,9 @@ void draw() {
   for (int i = 0; i < enemies.size(); ++i) {
     enemies.get(i).run();
   }
+
+  drawText();
+  checkMoney();
 
   if (gameState==TowerBuy) {
   	textSize(18);
@@ -530,6 +543,5 @@ void draw() {
     if (gameState==GAMEWAIT) gameState=GAMERUNNING;
     else if (gameState==GAMEOVER || gameState==GAMEWON) restart(1);
   }
-  drawText();
 
 }
