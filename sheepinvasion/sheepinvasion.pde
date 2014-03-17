@@ -195,7 +195,7 @@ void drawButton_proTower () {
 
 // Pausiert das Spiel und lässt einen Tower auf das Feld bauen.
 void mousePressed() {
-	if (gameState==TowerBuy && map.atPixel(mouseX, mouseY) == 'G') {
+	if (gameState==TowerBuy && map.atPixel(mouseX, mouseY) == 'G' || gameState==TowerBuy && map.atPixel(mouseX, mouseY) == 'M') {
 		map.setPixel(mouseX, mouseY, 'T');
 		money=money-15;
 		gameState=GAMERUNNING;
@@ -207,7 +207,7 @@ void mousePressed() {
       	money=money-50;
       	gameState=GAMERUNNING;
       }
-      if (gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'G') {
+      if (gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'G' || gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'P' || gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'T') {
       	map.setPixel(mouseX, mouseY, 'M');
       	money=money-25;
         moneytower.play(0);
