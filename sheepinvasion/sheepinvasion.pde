@@ -35,7 +35,7 @@ int score,lvl;
 float difficulty = 0;
 
 float time;
-int GAMEWAIT=0, GAMERUNNING=1, GAMEOVER=2, GAMEWON=3, TowerBuy=4, MoneyTowerBuy=5, ProTowerBuy=6;
+int GAMEWAIT=0, GAMERUNNING=1, GAMEOVER=2, GAMEWON=3, TowerBuy=4, MoneyTowerBuy=5, ProTowerBuy=6, TUTORIAL=7;
 int gameState;
 
 PImage backgroundImg;
@@ -69,6 +69,8 @@ void setup() {
 // Je nach Wert von "lvl" wird eine andere .map Datei geladen und die Difficulty verändert.
 void restart (int lvl) {
 	map = new Map( "level"+lvl+".map");
+	money = 40;
+	time=0;
 	for (int i = 0; i < enemies.size(); ++i) {
 		enemies.remove(i);
 		i--;
@@ -79,22 +81,19 @@ void restart (int lvl) {
 	}
 	if (lvl == 1) {
 		score = 0;
-		money = 40;
 		difficulty = 18;
+		gameState = TUTORIAL;
 	}
 	if (lvl == 2) {
 		difficulty = 10;
-		money = 40;
 		score = 11;
+		gameState = GAMEWAIT;
 	}
 	if (lvl == 3) {
 		difficulty = 5;
-		money = 40;
 		score = 21;
+		gameState = GAMEWAIT;
 	}
-
-	time=0;
-	gameState = GAMEWAIT;
 }
 // Es wird überprüft wie der Punktestand ist. Werden bestimmte Punkte erreicht, wird das Spiel mit einer neuen Karte neugestartet.
 void levelSwitch() {
@@ -244,7 +243,7 @@ void drawText() {
 	textAlign(CENTER, CENTER);
 	fill(0, 255, 0);
 
-	if (gameState==GAMEWAIT) {
+	if (gameState==TUTORIAL) {
 		fill(0, 0, 0, 180);
 		rect(0,0,width, height);
 		//background(0, 0, 0, 0.5);
@@ -263,6 +262,7 @@ void drawText() {
 
 		text ("Wähle einen Turm um anzufangen", width/2, height/2+180);
 	}
+	else if (gameState==GAMEWAIT) {textSize(40); text("Wähle einen Turm um anzufangen", width/2, height/2);}
 
 	else if (gameState==GAMEOVER) {textSize(40); text("Game Over - Press R", width/2, height/2);}
 	else if (gameState==GAMEWON) {textSize(40); text("won in "+ round(time) + " seconds", width/2, height/2);}
