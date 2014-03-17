@@ -241,15 +241,23 @@ void drawText() {
 	fill(0, 255, 0);
 
 	if (gameState==GAMEWAIT) {
-		fill(0, 0, 0, 200);
+		fill(0, 0, 0, 180);
 		rect(0,0,width, height);
 		//background(0, 0, 0, 0.5);
 
 		fill(0, 255, 0);
-		textSize(16);
-		text ("Baue Schusstürme um die Schafe aufzuhalten", width/2, height/2-150);
-		text ("Geldtürme generieren Münzen und sind essentiell, um weitere Türme bauen zu können", width/2, height/2);
-		text ("Drücke einen Button um anzufangen", width/2, height/2+150);
+		textSize(20);
+		text ("Geldtürme generieren Münzen und sind nötig, um weitere Türme bauen zu können", width/2, height/2-180);
+		shape(towerMoney,width/2-100,height/2-180+70,50,50);
+		shape(towerMoney,width/2,height/2-180+70,50,50);
+		shape(towerMoney,width/2+100,height/2-180+70,50,50);
+
+		text ("Baue Schusstürme um die Schafe aufzuhalten", width/2, height/2);
+		shape(towerBasic,width/2-180,height/2+70,50,75);
+		shape(towerPro,width/2-100,height/2+70,50,75);
+		shape(enemyBasic,width/2+180,height/2+70,112,75);
+
+		text ("Wähle einen Turm um anzufangen", width/2, height/2+180);
 	}
 
 	else if (gameState==GAMEOVER) {textSize(40); text("Game Over - Press R", width/2, height/2);}
@@ -473,7 +481,6 @@ void draw() {
   drawMap();
   playerX = mouseX;
   playerY = mouseY;
-  levelSwitch();
 
   for (int i = 0; i < shots.size(); ++i) {
     shots.get(i).run();
@@ -484,6 +491,7 @@ void draw() {
 
   drawText();
   checkMoney();
+  levelSwitch();
 
   if (gameState==TowerBuy) {
   	textSize(18);
