@@ -209,9 +209,8 @@ void mousePressed() {
       if (gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'G' || gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'P' || gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'T') {
       	map.setPixel(mouseX, mouseY, 'M');
       	money=money-25;
+      	moneytower.setGain(-15);
         moneytower.play(0);
-        moneytower.shiftGain(-80.0, 0.0, 10000);
-		moneytower.setGain(-10.0);
       	gameState=GAMERUNNING;
       }
 
@@ -332,9 +331,8 @@ void addShots() {
           shots.add(
             new Shot((i+1)*100-28,j, 3, #2aff00)
             );
+          shot.setGain(-15);
           shot.play(0);
-          shot.shiftGain(-80.0, 0.0, 10000);
-          shot.setGain(-15.0);
         }
       }
     }
@@ -350,9 +348,8 @@ void addProShots() {
 					shots.add(
 						new Shot((i+1)*100-24,j, 4, #00e0ff)
 						);
+					shot.setGain(-25);
 					proshot.play(0);
-					proshot.shiftGain(-80.0, 0.0, 10000);
-					proshot.setGain(-20.0);
 				}
 			}
 		}
@@ -402,9 +399,8 @@ class Enemy {
       if (shots.get(i).x >= x-60 && shots.get(i).x <= x+60 && shots.get(i).y >= y-20 && shots.get(i).y <= y+20) {
         health -= 3;
         shots.remove(i);
+        hit.setGain(-15);
         hit.play(0);
-		hit.shiftGain(-80.0, 0.0, 10000);
-		hit.setGain(-15.0);
       }
     }
   }
@@ -472,9 +468,8 @@ void moveEnemies() {
       // Wenn der Gegner ein Feld mit einem Turm erreicht, wird das Feld ausgetauscht
       if (map.atPixel(enemies.get(i).x, enemies.get(i).y)=='T' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='M' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='P'){
       	map.setPixel(int(enemies.get(i).x),int(enemies.get(i).y), 'G');
+      	explosion.setGain(-15);
       	explosion.play(0);
-      	explosion.shiftGain(-80.0, 0.0, 10000);
-		explosion.setGain(-15.0);
       }
 
       //Hier wird geprüft ob der Gegner tot ist (siehe Boolean in der Klasse). Starb der Gegner werden der Geld- und Punktestand höher gesetzt.
@@ -483,9 +478,8 @@ void moveEnemies() {
       	i--;
       	score++;
       	money+=5;
+      	dead.setGain(-15);
       	dead.play(0);
-        dead.shiftGain(-80.0, 0.0, 10000);
-		dead.setGain(-10.0);
       }
   }
 }
