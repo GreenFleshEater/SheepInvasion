@@ -350,7 +350,7 @@ void addProShots() {
 					shots.add(
 						new Shot((i+1)*100-24,j, 4, #00e0ff)
 						);
-					shot.setGain(-55);
+					proshot.setGain(-25);
 					proshot.play(0);
 				}
 			}
