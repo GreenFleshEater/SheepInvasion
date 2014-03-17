@@ -149,9 +149,9 @@ void drawButton_Tower () {
 	else{
 		fill(#f1c40f);
 		rect(25, 630, 200, 50);
-		fill(#ffffff);
-		text("Schussturm (15)", 200/2+25,630+33);
 	}
+	fill(#ffffff);
+	text("Schussturm (15)", 200/2+25,630+33);
 }
 
 void drawButton_moneyTower () {
@@ -168,9 +168,9 @@ void drawButton_moneyTower () {
 	else{
 		fill(#f1c40f);
 		rect(280, 630, 200, 50);
-		fill(#ffffff);
-		text("Geldturm (25)", 200/2+280,630+33);
 	}
+	fill(#ffffff);
+	text("Geldturm (25)", 200/2+280,630+33);
 }
 
 void drawButton_proTower () {
@@ -187,9 +187,9 @@ void drawButton_proTower () {
 	else{
 		fill(#f1c40f);
 		rect(525, 630, 250, 50);
-		fill(#ffffff);
-		text("Schussturm Upgrade (50)", 200/2+545,630+33);
 	}
+	fill(#ffffff);
+	text("Schussturm Upgrade (50)", 200/2+545,630+33);
 }
 
 // Pausiert das Spiel und lässt einen Tower auf das Feld bauen.
