@@ -69,7 +69,6 @@ void setup() {
 // Je nach Wert von "lvl" wird eine andere .map Datei geladen und die Difficulty verändert.
 void restart (int lvl) {
 	map = new Map( "level"+lvl+".map");
-	money = 40;
 	time=0;
 	for (int i = 0; i < enemies.size(); ++i) {
 		enemies.remove(i);
@@ -83,27 +82,30 @@ void restart (int lvl) {
 		score = 0;
 		difficulty = 19;
 		gameState = TUTORIAL;
+		money = 40;
 	}
 	if (lvl == 2) {
-		difficulty = 7;
+		difficulty = 5;
 		score = 11;
 		gameState = GAMEWAIT;
+		money = 40;
 	}
 	if (lvl == 3) {
 		difficulty = 2;
-		score = 21;
+		score = 31;
 		gameState = GAMEWAIT;
+		money = 60;
 	}
 }
 // Es wird überprüft wie der Punktestand ist. Werden bestimmte Punkte erreicht, wird das Spiel mit einer neuen Karte neugestartet.
 void levelSwitch() {
-	if (score>=50) {
+	if (score==50) {
 		gameState = GAMEWON;
 	}
-	else if (score>=50) {
+	else if (score==30) {
 		restart(3);
 	}
-	else if (score>=10) {
+	else if (score==10) {
 		restart(2);
 	}
 
@@ -119,7 +121,7 @@ void levelSwitch() {
 		fill(#ecf0f1);
 		text("Level 2", 200/2+545,50);
 	}
-	else if (score>=20) {
+	else if (score>=30) {
 		textSize(24);
 		textAlign(LEFT);
 		fill(#ecf0f1);
@@ -263,8 +265,8 @@ void drawText() {
 	}
 	else if (gameState==GAMEWAIT) {textSize(40); text("Wähle einen Turm um anzufangen", width/2, height/2);}
 
-	else if (gameState==GAMEOVER) {textSize(40); text("Game Over - Press R", width/2, height/2);}
-	else if (gameState==GAMEWON) {textSize(40); text("won in "+ round(time) + " seconds", width/2, height/2);}
+	else if (gameState==GAMEOVER) {textSize(40); text("Game Over - Drücke R", width/2, height/2);}
+	else if (gameState==GAMEWON) {textSize(40); text("Gewonnen in "+ round(time) + " Sekunden - Drücke R", width/2, height/2);}
 }
 
 // Malt die Tower für ein besseres Verständnis während des Kaufvorgangs
@@ -348,7 +350,7 @@ void addProShots() {
 					shots.add(
 						new Shot((i+1)*100-24,j, 4, #00e0ff)
 						);
-					shot.setGain(-25);
+					shot.setGain(-55);
 					proshot.play(0);
 				}
 			}
