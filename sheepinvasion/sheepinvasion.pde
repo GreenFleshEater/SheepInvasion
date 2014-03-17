@@ -295,6 +295,7 @@ class Shot {
 	}
 
 	void run() {
+		noStroke();
 		fill (c);
 		ellipse(x,y,r,r);
 	}
@@ -390,6 +391,7 @@ class Enemy {
 //Lässt die Gegner über das Feld bewegen und leicht wackeln (Schritte)
   void run() {
     if (typ ==1) {
+    noStroke();
     shape(enemyBasic,x,yWiggle,112,75);
     fill(0);
     rect(x-112/2,y+40,102,5);
@@ -398,6 +400,7 @@ class Enemy {
     }
 
     if (typ ==2) {
+    noStroke();
     shape(enemyEvil,x,yWiggle,112,75);
     fill(0);
     rect(x-112/2,y+40,102,7);
