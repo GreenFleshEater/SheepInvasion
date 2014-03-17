@@ -97,7 +97,7 @@ void restart (int lvl) {
 }
 // Es wird überprüft wie der Punktestand ist. Werden bestimmte Punkte erreicht, wird das Spiel mit einer neuen Karte neugestartet.
 void levelSwitch() {
-	if (score==80) {
+	if (score==50) {
 		gameState = GAMEWON;
 	}
 	else if (score==50) {
