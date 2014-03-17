@@ -20,7 +20,7 @@ ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 import ddf.minim.*;
 Minim minim;
 AudioPlayer player;
-AudioSnippet shot,proshot,hit,dead,explosion;
+AudioSnippet shot,proshot,hit,dead,explosion,moneytower;
 
 //Money
 float money = 40;
@@ -50,6 +50,7 @@ void setup() {
   hit = minim.loadSnippet ("sounds/hit.wav");
   dead = minim.loadSnippet ("sounds/dead.wav");
   explosion = minim.loadSnippet ("sounds/explosion.wav");
+  moneytower = minim.loadSnippet ("sounds/moneytower.wav");
   player.play ();
   player.loop ();
   size( 900, 700 );
@@ -97,16 +98,14 @@ void restart (int lvl) {
 }
 // Es wird überprüft wie der Punktestand ist. Werden bestimmte Punkte erreicht, wird das Spiel mit einer neuen Karte neugestartet.
 void levelSwitch() {
-	if (score>=800) {
-		gameState = GAMEWON;
+	if (score==10) {
+		restart(2);
 	}
-
 	else if (score==50) {
 		restart(3);
 	}
-
-	else if (score==10) {
-		restart(2);
+	else if (score==800) {
+		gameState = GAMEWON;
 	}
 
 	if (score<=10) {
@@ -211,6 +210,10 @@ void mousePressed() {
       if (gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'G') {
       	map.setPixel(mouseX, mouseY, 'M');
       	money=money-25;
+                moneytower.play(0);
+          moneytower.shiftGain(-80.0, 0.0, 10000);
+
+          moneytower.setGain(-10.0);
       	gameState=GAMERUNNING;
       }
 
@@ -241,10 +244,29 @@ void checkMoney(){
 void drawText() {
 	textAlign(CENTER, CENTER);
 	fill(0, 255, 0);
-	textSize(40);
-	if (gameState==GAMEWAIT) text ("Press Space to Start", width/2, height/2);
-	else if (gameState==GAMEOVER) text ("Game Over - Press R", width/2, height/2);
-	else if (gameState==GAMEWON) text ("won in "+ round(time) + " seconds", width/2, height/2);
+
+	if (gameState==GAMEWAIT) {
+		fill(0, 0, 0, 180);
+		rect(0,0,width, height);
+		//background(0, 0, 0, 0.5);
+
+		fill(0, 255, 0);
+		textSize(20);
+		text ("Geldtürme generieren Münzen und sind nötig, um weitere Türme bauen zu können", width/2, height/2-180);
+		shape(towerMoney,width/2-100,height/2-180+70,50,50);
+		shape(towerMoney,width/2,height/2-180+70,50,50);
+		shape(towerMoney,width/2+100,height/2-180+70,50,50);
+
+		text ("Baue Schusstürme um die Schafe aufzuhalten", width/2, height/2);
+		shape(towerBasic,width/2-180,height/2+70,50,75);
+		shape(towerPro,width/2-100,height/2+70,50,75);
+		shape(enemyBasic,width/2+180,height/2+70,112,75);
+
+		text ("Wähle einen Turm um anzufangen", width/2, height/2+180);
+	}
+
+	else if (gameState==GAMEOVER) {textSize(40); text("Game Over - Press R", width/2, height/2);}
+	else if (gameState==GAMEWON) {textSize(40); text("won in "+ round(time) + " seconds", width/2, height/2);}
 }
 
 // Malt die Tower für ein besseres Verständnis während des Kaufvorgangs
@@ -312,6 +334,9 @@ void addShots() {
             new Shot((i+1)*100-28,j, 3, #2aff00)
             );
           shot.play(0);
+          shot.shiftGain(-80.0, 0.0, 10000);
+
+          shot.setGain(-15.0);
         }
       }
     }
@@ -328,6 +353,9 @@ void addProShots() {
 						new Shot((i+1)*100-24,j, 4, #00e0ff)
 						);
 					proshot.play(0);
+          proshot.shiftGain(-80.0, 0.0, 10000);
+
+          proshot.setGain(-20.0);
 				}
 			}
 		}
@@ -378,6 +406,9 @@ class Enemy {
         health -= 3;
         shots.remove(i);
         hit.play(0);
+                  hit.shiftGain(-80.0, 0.0, 10000);
+
+          hit.setGain(-15.0);
       }
     }
   }
@@ -446,10 +477,6 @@ void moveEnemies() {
       if (map.atPixel(enemies.get(i).x, enemies.get(i).y)=='T' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='M' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='P'){
       	map.setPixel(int(enemies.get(i).x),int(enemies.get(i).y), 'G');
       	explosion.play(0);
-                explosion.play(0);
-          explosion.shiftGain(-80.0, 0.0, 10000);
-
-          explosion.setGain(-10.0);
       }
 
       //Hier wird geprüft ob der Gegner tot ist (siehe Boolean in der Klasse). Starb der Gegner werden der Geld- und Punktestand höher gesetzt.
@@ -459,6 +486,10 @@ void moveEnemies() {
       	score++;
       	money+=5;
       	dead.play(0);
+                dead.play(0);
+          dead.shiftGain(-80.0, 0.0, 10000);
+
+          dead.setGain(-10.0);
       }
   }
 }
@@ -468,8 +499,6 @@ void draw() {
   drawMap();
   playerX = mouseX;
   playerY = mouseY;
-  checkMoney();
-  levelSwitch();
 
   for (int i = 0; i < shots.size(); ++i) {
     shots.get(i).run();
@@ -477,6 +506,10 @@ void draw() {
   for (int i = 0; i < enemies.size(); ++i) {
     enemies.get(i).run();
   }
+
+  drawText();
+  checkMoney();
+  levelSwitch();
 
   if (gameState==TowerBuy) {
   	textSize(18);
@@ -536,6 +569,5 @@ void draw() {
     if (gameState==GAMEWAIT) gameState=GAMERUNNING;
     else if (gameState==GAMEOVER || gameState==GAMEWON) restart(1);
   }
-  drawText();
 
 }
