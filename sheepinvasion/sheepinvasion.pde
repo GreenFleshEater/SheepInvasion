@@ -20,7 +20,7 @@ ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 import ddf.minim.*;
 Minim minim;
 AudioPlayer player;
-AudioSnippet shot,proshot,hit,dead,explosion,moneytower;
+AudioSnippet shot,proshot,hit,dead,explosion;
 
 //Money
 float money = 40;
@@ -50,7 +50,6 @@ void setup() {
   hit = minim.loadSnippet ("sounds/hit.wav");
   dead = minim.loadSnippet ("sounds/dead.wav");
   explosion = minim.loadSnippet ("sounds/explosion.wav");
-  moneytower = minim.loadSnippet ("sounds/moneytower.wav");
   player.play ();
   player.loop ();
   size( 900, 700 );
@@ -212,10 +211,6 @@ void mousePressed() {
       if (gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'G') {
       	map.setPixel(mouseX, mouseY, 'M');
       	money=money-25;
-                moneytower.play(0);
-          moneytower.shiftGain(-80.0, 0.0, 10000);
-
-          moneytower.setGain(-10.0);
       	gameState=GAMERUNNING;
       }
 
@@ -317,9 +312,6 @@ void addShots() {
             new Shot((i+1)*100-28,j, 3, #2aff00)
             );
           shot.play(0);
-          shot.shiftGain(-80.0, 0.0, 10000);
-
-          shot.setGain(-15.0);
         }
       }
     }
@@ -336,9 +328,6 @@ void addProShots() {
 						new Shot((i+1)*100-24,j, 4, #00e0ff)
 						);
 					proshot.play(0);
-          proshot.shiftGain(-80.0, 0.0, 10000);
-
-          proshot.setGain(-20.0);
 				}
 			}
 		}
@@ -389,9 +378,6 @@ class Enemy {
         health -= 3;
         shots.remove(i);
         hit.play(0);
-                  hit.shiftGain(-80.0, 0.0, 10000);
-
-          hit.setGain(-15.0);
       }
     }
   }
@@ -473,10 +459,6 @@ void moveEnemies() {
       	score++;
       	money+=5;
       	dead.play(0);
-                dead.play(0);
-          dead.shiftGain(-80.0, 0.0, 10000);
-
-          dead.setGain(-10.0);
       }
   }
 }
