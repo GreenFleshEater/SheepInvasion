@@ -81,23 +81,23 @@ void restart (int lvl) {
 	}
 	if (lvl == 1) {
 		score = 0;
-		difficulty = 18;
+		difficulty = 19;
 		gameState = TUTORIAL;
 	}
 	if (lvl == 2) {
-		difficulty = 10;
+		difficulty = 7;
 		score = 11;
 		gameState = GAMEWAIT;
 	}
 	if (lvl == 3) {
-		difficulty = 5;
+		difficulty = 2;
 		score = 21;
 		gameState = GAMEWAIT;
 	}
 }
 // Es wird überprüft wie der Punktestand ist. Werden bestimmte Punkte erreicht, wird das Spiel mit einer neuen Karte neugestartet.
 void levelSwitch() {
-	if (score==800) {
+	if (score==80) {
 		gameState = GAMEWON;
 	}
 	else if (score==50) {
