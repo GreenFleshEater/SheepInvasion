@@ -1,16 +1,6 @@
 SheepInvasion
 =============
 
-A Tower-Defense game where sheeps are attacking. Made in Processing.
-
-Arbeitsaufteilung
-=================
-
-René: Macht Schussobjekte und eventuell Schaf.
-
-Manasse: Tobt sich aus.
-
-Tim: Spielmechaniken, Gegnerwellen etc.
-
-Niklas: …tauscht Tiles.
+A Tower-Defense game where sheeps are attacking. Made in Processing for ["Computer Science for Designers and General Studies"](http://www.informatik.uni-bremen.de/agebv/de/VeranstaltungIFG12) at the Universität Bremen.
+Feel free to fork this thing.
 
