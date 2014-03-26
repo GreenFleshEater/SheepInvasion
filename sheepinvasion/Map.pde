@@ -1,3 +1,4 @@
+/* Map-Class by Prof. Udo Frese, Course: "Informatik für Gestalter und General Studies", University of Bremen Wintersemester 2013/14 */
 class Map
 {  
   int mode = CORNER;
