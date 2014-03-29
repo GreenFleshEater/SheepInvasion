@@ -9,6 +9,9 @@ float screenLeftX, screenTopY;
 //integer für schleifen
 int i, j;
 
+//tile size
+int tileSize = 100;
+
 //timer für schüsse und gegner
 float shotTimer, proShotTimer, enemyTimer;
 
@@ -17,10 +20,10 @@ ArrayList<Shot> shots = new ArrayList<Shot>();
 ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 
 //minim Import
-import ddf.minim.*;
-Minim minim;
-AudioPlayer player;
-AudioSnippet shot,proshot,hit,dead,explosion,moneytower;
+//import ddf.minim.*;
+//Minim minim;
+// AudioPlayer player;
+// AudioSnippet shot,proshot,hit,dead,explosion,moneytower;
 
 //Money
 float money = 40;
@@ -28,11 +31,43 @@ float money = 40;
 //Vektoren
 PShape towerBasic,towerMoney, towerPro, enemyBasic, enemyEvil;
 
+//Pixel
+PImage tileB, tileG, tileS, tileT, tileP, tileM;
+
 //Levelvariable um die Karten zu Kontrollieren
 int score,lvl;
 
 //Schwierigkeit
 float difficulty = 0;
+
+//Level
+char[][] level1 = {
+		{'B','B','B','B','B','B','B','B','B'},
+		{'B','B','B','B','B','B','B','B','B'},
+		{'B','B','B','B','B','B','B','B','B'},
+		{'G','G','G','G','G','G','G','G','S'},
+		{'B','B','B','B','B','B','B','B','B'},
+		{'B','B','B','B','B','B','B','B','B'},
+		{'B','B','B','B','B','B','B','B','B'}
+	};
+char[][] level2 = {
+		{'B','B','B','B','B','B','B','B','B'},
+		{'B','B','B','B','B','B','B','B','B'},
+		{'G','G','G','G','G','G','G','G','S'},
+		{'G','G','G','G','G','G','G','G','S'},
+		{'G','G','G','G','G','G','G','G','S'},
+		{'B','B','B','B','B','B','B','B','B'},
+		{'B','B','B','B','B','B','B','B','B'}
+	};
+char[][] level3 = {
+		{'B','B','B','B','B','B','B','B','B'},
+		{'G','G','G','G','G','G','G','G','S'},
+		{'G','G','G','G','G','G','G','G','S'},
+		{'G','G','G','G','G','G','G','G','S'},
+		{'G','G','G','G','G','G','G','G','S'},
+		{'G','G','G','G','G','G','G','G','S'},
+		{'B','B','B','B','B','B','B','B','B'}
+	};
 
 float time;
 int GAMEWAIT=0, GAMERUNNING=1, GAMEOVER=2, GAMEWON=3, TowerBuy=4, MoneyTowerBuy=5, ProTowerBuy=6, TUTORIAL=7;
@@ -42,7 +77,7 @@ PImage backgroundImg;
 
 void setup() {
   //Lade Spielmusik
-  minim = new Minim (this);
+  /*minim = new Minim (this);
   //Lade Spielmusik (später loopen und beenden lassen)
   player = minim.loadFile ("sounds/soundtrack.wav");
   shot = minim.loadSnippet ("sounds/shot.wav");
@@ -52,10 +87,17 @@ void setup() {
   explosion = minim.loadSnippet ("sounds/explosion.wav");
   moneytower = minim.loadSnippet ("sounds/moneytower.wav");
   player.play ();
-  player.loop ();
+  player.loop ();*/
   size( 900, 700 );
   restart(1);
-  frameRate(24);
+  frameRate(60);
+
+  	tileB = loadImage("images/tiles/B.png");
+	tileG = loadImage("images/tiles/G.png");
+	tileS = loadImage("images/tiles/S.png");
+	tileT = loadImage("images/tiles/T.png");
+	tileP = loadImage("images/tiles/P.png");
+	tileM = loadImage("images/tiles/M.png");
 
   shapeMode(CENTER);
   towerBasic = loadShape("images/towerBasic.svg");
@@ -68,7 +110,7 @@ void setup() {
 // Die Karte wird neu gezeichnet und alle Spielfiguren und Schüsse werden aus dem Array entfernt.
 // Je nach Wert von "lvl" wird eine andere .map Datei geladen und die Difficulty verändert.
 void restart (int lvl) {
-	map = new Map( "level"+lvl+".map");
+	map = new Map(level1);
 	time=0;
 	for (int i = 0; i < enemies.size(); ++i) {
 		enemies.remove(i);
@@ -133,7 +175,7 @@ void drawMap() {
   // The left border of the screen is at screenLeftX in map coordinates
   // so we draw the left border of the map at -screenLeftX in screen coordinates
   // Same for screenTopY.
-  map.draw( -screenLeftX, -screenTopY );
+  map.draw();
 }
 
 // Malt die Buttons für die Tower und ändert auf Klick den GameState
@@ -211,8 +253,8 @@ void mousePressed() {
       if (gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'G' || gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'P' || gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'T') {
       	map.setPixel(mouseX, mouseY, 'M');
       	money=money-25;
-      	moneytower.setGain(-15);
-        moneytower.play(0);
+      	// moneytower.setGain(-15);
+       //  moneytower.play(0);
       	gameState=GAMERUNNING;
       }
 
@@ -292,6 +334,61 @@ void generateMoney() {
 	}
 }
 
+class Map {
+	Map (char[][] _map) {
+		mapArray = _map;
+	}
+
+	char[][] mapArray;
+
+	int w = 9;
+	int h = 7;
+
+	char at(int x,int y){
+		if (x < w && y < h) {
+			return mapArray[y][x];
+		}
+		else {
+			return 'B'; //doesn’t fix crash either
+		}
+	}
+	char atPixel(float x, float y){
+		if (x <= width && y <= height) {
+			return mapArray[int(y/tileSize)][int(x/tileSize)];
+		}
+		else {
+			return 'B'; //more like a hack but works / edit: only fixes crash in processing, not processing.js
+		}
+	}
+	void setPixel(int x, int y, char tile) {
+		mapArray[int(float(y)/tileSize)][int(float(x)/tileSize)] = tile;
+	}
+	void draw() { //could be coded much better but don’t know how to use string for loading PShape
+		for(int i=0; i<w; i++) {
+			for(int j=0; j<h; j++) {
+				if (at(i,j) == 'B') {
+					image(tileB,i*tileSize,j*tileSize,tileSize,tileSize);
+				}
+				else if (at(i,j) == 'G') {
+					image(tileG,i*tileSize,j*tileSize,tileSize,tileSize);
+				}
+				else if (at(i,j) == 'S') {
+					image(tileS,i*tileSize,j*tileSize,tileSize,tileSize);
+				}
+				else if (at(i,j) == 'T') {
+					image(tileT,i*tileSize,j*tileSize,tileSize,tileSize);
+				}
+				else if (at(i,j) == 'P') {
+					image(tileP,i*tileSize,j*tileSize,tileSize,tileSize);
+				}
+				else if (at(i,j) == 'M') {
+					image(tileM,i*tileSize,j*tileSize,tileSize,tileSize);
+				}
+			}
+		}
+	}
+};
+
 // Der Schuss  wird hier berechnet und gemalt.
 class Shot {
 	float x,y,eX,eY;
@@ -333,8 +430,8 @@ void addShots() {
           shots.add(
             new Shot((i+1)*100-28,j, 3, #2aff00)
             );
-          shot.setGain(-15);
-          shot.play(0);
+          // shot.setGain(-15);
+          // shot.play(0);
         }
       }
     }
@@ -350,8 +447,8 @@ void addProShots() {
 					shots.add(
 						new Shot((i+1)*100-24,j, 4, #00e0ff)
 						);
-					proshot.setGain(-25);
-					proshot.play(0);
+					// proshot.setGain(-25);
+					// proshot.play(0);
 				}
 			}
 		}
@@ -401,8 +498,9 @@ class Enemy {
       if (shots.get(i).x >= x-60 && shots.get(i).x <= x+60 && shots.get(i).y >= y-20 && shots.get(i).y <= y+20) {
         health -= 3;
         shots.remove(i);
-        hit.setGain(-15);
-        hit.play(0);
+        i--;
+        // hit.setGain(-15);
+        // hit.play(0);
       }
     }
   }
@@ -470,8 +568,8 @@ void moveEnemies() {
       // Wenn der Gegner ein Feld mit einem Turm erreicht, wird das Feld ausgetauscht
       if (map.atPixel(enemies.get(i).x, enemies.get(i).y)=='T' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='M' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='P'){
       	map.setPixel(int(enemies.get(i).x),int(enemies.get(i).y), 'G');
-      	explosion.setGain(-15);
-      	explosion.play(0);
+      	// explosion.setGain(-15);
+      	// explosion.play(0);
       }
 
       //Hier wird geprüft ob der Gegner tot ist (siehe Boolean in der Klasse). Starb der Gegner werden der Geld- und Punktestand höher gesetzt.
@@ -480,8 +578,8 @@ void moveEnemies() {
       	i--;
       	score++;
       	money+=5;
-      	dead.setGain(-15);
-      	dead.play(0);
+      	// dead.setGain(-15);
+      	// dead.play(0);
       }
   }
 }
