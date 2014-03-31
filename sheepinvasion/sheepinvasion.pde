@@ -447,7 +447,6 @@ void addProShots() {
 					shots.add(
 						new Shot((i+1)*100-24,j, 4, #00e0ff)
 						);
-					println("shot");
 					// proshot.setGain(-25);
 					// proshot.play(0);
 				}
@@ -522,7 +521,7 @@ class Enemy {
     fill(0);
     rect(x-112/2,y+40,102,5);
     fill(0,180,0);
-    rect(x-112/2+1,y+41,map(health,0,60,0,100),3);
+    //rect(x-112/2+1,y+41,map(health,0,60,0,100),3);
     }
 
     if (typ ==2) {
@@ -531,7 +530,7 @@ class Enemy {
     fill(0);
     rect(x-112/2,y+40,102,7);
     fill(0,250,0);
-    rect(x-112/2+1,y+41,map(health,0,150,0,100),5);
+    //rect(x-112/2+1,y+41,map(health,0,150,0,100),5);
     }
 // Wenn einer der Gegner auf der linken Seite des Spielfeldes ankommt, ist das Spiel verloren
     if (x<=0) {
