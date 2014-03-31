@@ -42,31 +42,31 @@ float difficulty = 0;
 
 //Level
 char[][] level1 = {
-		{'B','B','B','B','B','B','B','B','B'},
-		{'B','B','B','B','B','B','B','B','B'},
-		{'B','B','B','B','B','B','B','B','B'},
-		{'G','G','G','G','G','G','G','G','S'},
-		{'B','B','B','B','B','B','B','B','B'},
-		{'B','B','B','B','B','B','B','B','B'},
-		{'B','B','B','B','B','B','B','B','B'}
+		{"B","B","B","B","B","B","B","B","B"},
+		{"B","B","B","B","B","B","B","B","B"},
+		{"B","B","B","B","B","B","B","B","B"},
+		{"G","G","G","G","G","G","G","G","S"},
+		{"B","B","B","B","B","B","B","B","B"},
+		{"B","B","B","B","B","B","B","B","B"},
+		{"B","B","B","B","B","B","B","B","B"}
 	};
 char[][] level2 = {
-		{'B','B','B','B','B','B','B','B','B'},
-		{'B','B','B','B','B','B','B','B','B'},
-		{'G','G','G','G','G','G','G','G','S'},
-		{'G','G','G','G','G','G','G','G','S'},
-		{'G','G','G','G','G','G','G','G','S'},
-		{'B','B','B','B','B','B','B','B','B'},
-		{'B','B','B','B','B','B','B','B','B'}
+		{"B","B","B","B","B","B","B","B","B"},
+		{"B","B","B","B","B","B","B","B","B"},
+		{"G","G","G","G","G","G","G","G","S"},
+		{"G","G","G","G","G","G","G","G","S"},
+		{"G","G","G","G","G","G","G","G","S"},
+		{"B","B","B","B","B","B","B","B","B"},
+		{"B","B","B","B","B","B","B","B","B"}
 	};
 char[][] level3 = {
-		{'B','B','B','B','B','B','B','B','B'},
-		{'G','G','G','G','G','G','G','G','S'},
-		{'G','G','G','G','G','G','G','G','S'},
-		{'G','G','G','G','G','G','G','G','S'},
-		{'G','G','G','G','G','G','G','G','S'},
-		{'G','G','G','G','G','G','G','G','S'},
-		{'B','B','B','B','B','B','B','B','B'}
+		{"B","B","B","B","B","B","B","B","B"},
+		{"G","G","G","G","G","G","G","G","S"},
+		{"G","G","G","G","G","G","G","G","S"},
+		{"G","G","G","G","G","G","G","G","S"},
+		{"G","G","G","G","G","G","G","G","S"},
+		{"G","G","G","G","G","G","G","G","S"},
+		{"B","B","B","B","B","B","B","B","B"}
 	};
 
 float time;
@@ -238,20 +238,20 @@ void drawButton_proTower () {
 
 // Pausiert das Spiel und lässt einen Tower auf das Feld bauen.
 void mousePressed() {
-	if (gameState==TowerBuy && map.atPixel(mouseX, mouseY) == 'G' || gameState==TowerBuy && map.atPixel(mouseX, mouseY) == 'M') {
-		map.setPixel(mouseX, mouseY, 'T');
+	if (gameState==TowerBuy && map.atPixel(mouseX, mouseY) == "G" || gameState==TowerBuy && map.atPixel(mouseX, mouseY) == "M") {
+		map.setPixel(mouseX, mouseY, "T");
 		money=money-15;
 		gameState=GAMERUNNING;
 	}
 
       //Pro Tower als Upgrade des normalen Towers
-      if (gameState==ProTowerBuy && map.atPixel(mouseX, mouseY) == 'T') {
-      	map.setPixel(mouseX, mouseY, 'P');
+      if (gameState==ProTowerBuy && map.atPixel(mouseX, mouseY) == "T") {
+      	map.setPixel(mouseX, mouseY, "P");
       	money=money-50;
       	gameState=GAMERUNNING;
       }
-      if (gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'G' || gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'P' || gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == 'T') {
-      	map.setPixel(mouseX, mouseY, 'M');
+      if (gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == "G" || gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == "P" || gameState==MoneyTowerBuy && map.atPixel(mouseX, mouseY) == "T") {
+      	map.setPixel(mouseX, mouseY, "M");
       	money=money-25;
       	// moneytower.setGain(-15);
        //  moneytower.play(0);
@@ -327,7 +327,7 @@ void protowerDraw(float protowerX1,float protowerY1){
 void generateMoney() {
 	for (i = 0; i < map.w; i++) {
 		for (j = 0; j < map.h; j++) {
-			if (map.at(i,j) == 'M'){
+			if (map.at(i,j) == "M"){
 				money+=1/frameRate;
 			}
 		}
@@ -349,7 +349,7 @@ class Map {
 			return mapArray[y][x];
 		}
 		else {
-			return 'B'; //doesn’t fix crash either
+			return "B"; //doesn’t fix crash either
 		}
 	}
 	char atPixel(float x, float y){
@@ -357,7 +357,7 @@ class Map {
 			return mapArray[int(y/tileSize)][int(x/tileSize)];
 		}
 		else {
-			return 'B'; //more like a hack but works / edit: only fixes crash in processing, not processing.js
+			return "B"; //more like a hack but works / edit: only fixes crash in processing, not processing.js
 		}
 	}
 	void setPixel(int x, int y, char tile) {
@@ -366,22 +366,22 @@ class Map {
 	void draw() { //could be coded much better but don’t know how to use string for loading PShape
 		for(int i=0; i<w; i++) {
 			for(int j=0; j<h; j++) {
-				if (at(i,j) == 'B') {
+				if (at(i,j) == "B") {
 					image(tileB,i*tileSize,j*tileSize,tileSize,tileSize);
 				}
-				else if (at(i,j) == 'G') {
+				else if (at(i,j) == "G") {
 					image(tileG,i*tileSize,j*tileSize,tileSize,tileSize);
 				}
-				else if (at(i,j) == 'S') {
+				else if (at(i,j) == "S") {
 					image(tileS,i*tileSize,j*tileSize,tileSize,tileSize);
 				}
-				else if (at(i,j) == 'T') {
+				else if (at(i,j) == "T") {
 					image(tileT,i*tileSize,j*tileSize,tileSize,tileSize);
 				}
-				else if (at(i,j) == 'P') {
+				else if (at(i,j) == "P") {
 					image(tileP,i*tileSize,j*tileSize,tileSize,tileSize);
 				}
-				else if (at(i,j) == 'M') {
+				else if (at(i,j) == "M") {
 					image(tileM,i*tileSize,j*tileSize,tileSize,tileSize);
 				}
 			}
@@ -426,7 +426,7 @@ void addShots() {
   if (shotTimer >=1) {
     for (i = 0; i < map.w; i++) {
       for (j = 0; j < map.h; j++) {
-        if (map.at(i,j) == 'T'){
+        if (map.at(i,j) == "T"){
           shots.add(
             new Shot((i+1)*100-28,j, 3, #2aff00)
             );
@@ -443,7 +443,7 @@ void addProShots() {
 	if (proShotTimer >=0.4) {
 		for (i = 0; i < map.w; i++) {
 			for (j = 0; j < map.h; j++) {
-				if (map.at(i,j) == 'P'){
+				if (map.at(i,j) == "P"){
 					shots.add(
 						new Shot((i+1)*100-24,j, 4, #00e0ff)
 						);
@@ -543,7 +543,7 @@ void spawnEnemies() {
 	if (enemyTimer >= 5) {
 		for (i = 0; i < map.w; i++) {
 			for (j = 0; j < map.h; j++) {
-				if (map.at(i,j) == 'S' && random(0,100)<=difficulty){
+				if (map.at(i,j) == "S" && random(0,100)<=difficulty){
 					if(random(20,100)>=difficulty)
 						enemies.add(
 							new Enemy((i+1)*100+50,j, 1)
@@ -566,8 +566,8 @@ void moveEnemies() {
 		enemies.get(i).move();
 
       // Wenn der Gegner ein Feld mit einem Turm erreicht, wird das Feld ausgetauscht
-      if (map.atPixel(enemies.get(i).x, enemies.get(i).y)=='T' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='M' || map.atPixel(enemies.get(i).x, enemies.get(i).y)=='P'){
-      	map.setPixel(int(enemies.get(i).x),int(enemies.get(i).y), 'G');
+      if (map.atPixel(enemies.get(i).x, enemies.get(i).y)=="T" || map.atPixel(enemies.get(i).x, enemies.get(i).y)=="M" || map.atPixel(enemies.get(i).x, enemies.get(i).y)=="P"){
+      	map.setPixel(int(enemies.get(i).x),int(enemies.get(i).y), "G");
       	// explosion.setGain(-15);
       	// explosion.play(0);
       }
@@ -609,7 +609,7 @@ void draw() {
   	fill(#9b59b6);
   	text("Abbruch mit a", 200/2+25,630+33);
   	towerDraw(mouseX,mouseY);
-  	if (keyPressed && key=='a') {
+  	if (keyPressed && key=="a") {
   		gameState = GAMERUNNING;
   	}
   }
@@ -622,7 +622,7 @@ void draw() {
   	fill(#f1c40f);
   	text("Abbruch mit a", 200/2+280,630+33);
   	moneytowerDraw(mouseX,mouseY);
-  	if (keyPressed && key=='a') {
+  	if (keyPressed && key=="a") {
   		gameState = GAMERUNNING;
   	}
   }
@@ -635,7 +635,7 @@ void draw() {
   	fill(#9b59b6);
   	text("Abbruch mit a", 200/2+545,630+33);
   	protowerDraw(mouseX,mouseY);
-  	if (keyPressed && key=='a') {
+  	if (keyPressed && key=="a") {
   		gameState = GAMERUNNING;
   	}
   }
@@ -655,7 +655,7 @@ void draw() {
     moveShots();
   }
 
-  else if (keyPressed && key=='r') {
+  else if (keyPressed && key=="r") {
     if (gameState==GAMEWAIT) gameState=GAMERUNNING;
     else if (gameState==GAMEOVER || gameState==GAMEWON) restart(1);
   }
