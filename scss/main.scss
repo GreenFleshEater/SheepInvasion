@@ -10,5 +10,8 @@ body {
 	}
 	#content {
 		margin-top: 1%;
+		canvas {
+			outline: none;
+		}
 	}
 }

@@ -4,3 +4,7 @@
 body #content {
   margin-top: 1%;
 }
+/* line 13, ../scss/main.scss */
+body #content canvas {
+  outline: none;
+}
