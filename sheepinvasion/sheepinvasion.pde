@@ -40,35 +40,6 @@ int score,lvl;
 //Schwierigkeit
 float difficulty = 0;
 
-//Level
-char[][] level1 = {
-		{"B","B","B","B","B","B","B","B","B"},
-		{"B","B","B","B","B","B","B","B","B"},
-		{"B","B","B","B","B","B","B","B","B"},
-		{"G","G","G","G","G","G","G","G","S"},
-		{"B","B","B","B","B","B","B","B","B"},
-		{"B","B","B","B","B","B","B","B","B"},
-		{"B","B","B","B","B","B","B","B","B"}
-	};
-char[][] level2 = {
-		{"B","B","B","B","B","B","B","B","B"},
-		{"B","B","B","B","B","B","B","B","B"},
-		{"G","G","G","G","G","G","G","G","S"},
-		{"G","G","G","G","G","G","G","G","S"},
-		{"G","G","G","G","G","G","G","G","S"},
-		{"B","B","B","B","B","B","B","B","B"},
-		{"B","B","B","B","B","B","B","B","B"}
-	};
-char[][] level3 = {
-		{"B","B","B","B","B","B","B","B","B"},
-		{"G","G","G","G","G","G","G","G","S"},
-		{"G","G","G","G","G","G","G","G","S"},
-		{"G","G","G","G","G","G","G","G","S"},
-		{"G","G","G","G","G","G","G","G","S"},
-		{"G","G","G","G","G","G","G","G","S"},
-		{"B","B","B","B","B","B","B","B","B"}
-	};
-
 float time;
 int GAMEWAIT=0, GAMERUNNING=1, GAMEOVER=2, GAMEWON=3, TowerBuy=4, MoneyTowerBuy=5, ProTowerBuy=6, TUTORIAL=7;
 int gameState;
@@ -110,7 +81,7 @@ void setup() {
 // Die Karte wird neu gezeichnet und alle Spielfiguren und Schüsse werden aus dem Array entfernt.
 // Je nach Wert von "lvl" wird eine andere .map Datei geladen und die Difficulty verändert.
 void restart (int lvl) {
-	map = new Map(level1);
+	map = new Map(lvl);
 	time=0;
 	for (int i = 0; i < enemies.size(); ++i) {
 		enemies.remove(i);
@@ -335,14 +306,53 @@ void generateMoney() {
 }
 
 class Map {
-	Map (char[][] _map) {
-		mapArray = _map;
+	int w, h;
+	char[][] mapArray, level1, level2, level3;
+	
+	Map (int lvl) {
+		w = 9;
+		h = 7;
+		//Level
+		level1 = {
+				{"B","B","B","B","B","B","B","B","B"},
+				{"B","B","B","B","B","B","B","B","B"},
+				{"B","B","B","B","B","B","B","B","B"},
+				{"G","G","G","G","G","G","G","G","S"},
+				{"B","B","B","B","B","B","B","B","B"},
+				{"B","B","B","B","B","B","B","B","B"},
+				{"B","B","B","B","B","B","B","B","B"}
+			};
+		level2 = {
+				{"B","B","B","B","B","B","B","B","B"},
+				{"B","B","B","B","B","B","B","B","B"},
+				{"G","G","G","G","G","G","G","G","S"},
+				{"G","G","G","G","G","G","G","G","S"},
+				{"G","G","G","G","G","G","G","G","S"},
+				{"B","B","B","B","B","B","B","B","B"},
+				{"B","B","B","B","B","B","B","B","B"}
+			};
+		level3 = {
+				{"B","B","B","B","B","B","B","B","B"},
+				{"G","G","G","G","G","G","G","G","S"},
+				{"G","G","G","G","G","G","G","G","S"},
+				{"G","G","G","G","G","G","G","G","S"},
+				{"G","G","G","G","G","G","G","G","S"},
+				{"G","G","G","G","G","G","G","G","S"},
+				{"B","B","B","B","B","B","B","B","B"}
+			};
+
+		if (lvl==1) {
+			mapArray = level1;
+		}
+
+		else if (lvl==2) {
+			mapArray = level2;
+		}
+
+		else if (lvl==3) {
+			mapArray = level3;
+		}
 	}
-
-	char[][] mapArray;
-
-	int w = 9;
-	int h = 7;
 
 	char at(int x,int y){
 		if (x < w && y < h) {
