@@ -1,0 +1,16 @@
+{
+  "version": "0.1",
+  "name": "SheepInvasion",
+  "description": "SheepInvasion let you defend deadly sheeps",
+  "icons": {
+  	"16": "http://localhost/SheepInvasion/images/firefox-16.png",
+    "48": "http://localhost/SheepInvasion/images/firefox-48.png",
+    "48": "http://localhost/SheepInvasion/images/firefox-60.png",
+    "128": "http://localhost/SheepInvasion/images/firefox-128.png"
+  },
+    "developer": {
+    "name": "SheepInvasion - Team",
+    "url": "https://github.com/GreenFleshEater/SheepInvasion"
+  },
+  "default_locale": "en"
+}
