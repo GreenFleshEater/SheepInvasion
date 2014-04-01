@@ -59,7 +59,7 @@ void setup() {
   moneytower = minim.loadSnippet ("sounds/moneytower.wav");
   player.play ();
   player.loop ();*/
-  size( 900, 700 );
+  size(window.innerWidth, window.innerHeight); 
   restart(1);
   frameRate(60);
 
@@ -126,19 +126,19 @@ void levelSwitch() {
 		textSize(24);
 		textAlign(LEFT);
 		fill(#ecf0f1);
-		text("Level 1", 200/2+545,50);
+		text("Level 1", width-130,50);
 	}
 	else if (score>=10) {
 		textSize(24);
 		textAlign(LEFT);
 		fill(#ecf0f1);
-		text("Level 2", 200/2+545,50);
+		text("Level 2", width-130,50);
 	}
 	else if (score>=30) {
 		textSize(24);
 		textAlign(LEFT);
 		fill(#ecf0f1);
-		text("Level 3", 200/2+545,50);
+		text("Level 3", width-130,50);
 	}
 }
 
@@ -153,9 +153,9 @@ void drawMap() {
 void drawButton_Tower () {
 	textSize(18);
 	textAlign(CENTER);
-	if (mouseX > 25 && mouseX < 25+200 && mouseY > 630 && mouseY < 630+50){
+	if (mouseX > 25 && mouseX < 25+200 && mouseY > height-100 && mouseY < height-100+50){
 		fill(#9b59b6);
-		rect(25, 630, 200, 50);
+		rect(25, height-100, 200, 50);
 
 		if (mousePressed==true){
 			gameState = TowerBuy;
@@ -163,18 +163,18 @@ void drawButton_Tower () {
 	}
 	else{
 		fill(#f1c40f);
-		rect(25, 630, 200, 50);
+		rect(25, height-100, 200, 50);
 	}
 	fill(#ffffff);
-	text("Schussturm (15)", 200/2+25,630+33);
+	text("Schussturm (15)", 200/2+25,height-100+33);
 }
 
 void drawButton_moneyTower () {
 	textSize(18);
 	textAlign(CENTER);
-	if (mouseX > 280 && mouseX < 280+200 && mouseY > 630 && mouseY < 630+50){
+	if (mouseX > 280 && mouseX < 280+200 && mouseY > height-100 && mouseY < height-100+50){
 		fill(#9b59b6);
-		rect(280, 630, 200, 50);
+		rect(280, height-100, 200, 50);
 
 		if (mousePressed==true){
 			gameState = MoneyTowerBuy;
@@ -182,18 +182,18 @@ void drawButton_moneyTower () {
 	}
 	else{
 		fill(#f1c40f);
-		rect(280, 630, 200, 50);
+		rect(280, height-100, 200, 50);
 	}
 	fill(#ffffff);
-	text("Geldturm (25)", 200/2+280,630+33);
+	text("Geldturm (25)", 200/2+280,height-100+33);
 }
 
 void drawButton_proTower () {
 	textSize(18);
 	textAlign(CENTER);
-	if (mouseX > 525 && mouseX < 525+200 && mouseY > 630 && mouseY < 630+60){
+	if (mouseX > 525 && mouseX < 525+200 && mouseY > height-100 && mouseY < height-100+60){
 		fill(#9b59b6);
-		rect(525, 630, 250, 50);
+		rect(525, height-100, 250, 50);
 
 		if (mousePressed==true){
 			gameState = ProTowerBuy;
@@ -201,10 +201,10 @@ void drawButton_proTower () {
 	}
 	else{
 		fill(#f1c40f);
-		rect(525, 630, 250, 50);
+		rect(525, height-100, 250, 50);
 	}
 	fill(#ffffff);
-	text("Schussturm Upgrade (50)", 200/2+545,630+33);
+	text("Schussturm Upgrade (50)", 200/2+545,height-100+33);
 }
 
 // Pausiert das Spiel und lässt einen Tower auf das Feld bauen.
@@ -250,7 +250,7 @@ void checkMoney(){
 	textSize(24);
 	textAlign(LEFT);
 	fill(#ecf0f1);
-	text("Score: "+score, 500,50);
+	text("Score: "+score, width-300,50);
 }
 
 void drawText() {
@@ -615,9 +615,9 @@ void draw() {
   	textSize(18);
   	textAlign(CENTER);
   	fill(#ffffff);
-  	rect(25, 630, 200, 50);
+  	rect(25, height-100, 200, 50);
   	fill(#9b59b6);
-  	text("Abbruch mit a", 200/2+25,630+33);
+  	text("Abbruch mit a", 200/2+25,height-100+33);
   	towerDraw(mouseX,mouseY);
   	if (keyPressed && key=="a") {
   		gameState = GAMERUNNING;
@@ -628,9 +628,9 @@ void draw() {
   	textSize(18);
   	textAlign(CENTER);
   	fill(#ffffff);
-  	rect(280, 630, 200, 50);
+  	rect(280, height-100, 200, 50);
   	fill(#f1c40f);
-  	text("Abbruch mit a", 200/2+280,630+33);
+  	text("Abbruch mit a", 200/2+280,height-100+33);
   	moneytowerDraw(mouseX,mouseY);
   	if (keyPressed && key=="a") {
   		gameState = GAMERUNNING;
@@ -641,9 +641,9 @@ void draw() {
   	textSize(18);
   	textAlign(CENTER);
   	fill(#ffffff);
-  	rect(525, 630, 250, 50);
+  	rect(525, height-100, 250, 50);
   	fill(#9b59b6);
-  	text("Abbruch mit a", 200/2+545,630+33);
+  	text("Abbruch mit a", 200/2+545,height-100+33);
   	protowerDraw(mouseX,mouseY);
   	if (keyPressed && key=="a") {
   		gameState = GAMERUNNING;

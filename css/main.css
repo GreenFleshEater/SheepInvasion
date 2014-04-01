@@ -1,15 +1,16 @@
 @import url(http://fonts.googleapis.com/css?family=Merriweather+Sans:400,300,700,800);
 @import url(http://weloveiconfonts.com/api/?family=zocial);
-/* line 7, ../scss/main.scss */
+/* line 8, ../scss/main.scss */
 body {
   background: black;
   width: 100%;
+  margin: 0px;
 }
-/* line 13, ../scss/main.scss */
+/* line 15, ../scss/main.scss */
 body #content {
   margin-top: 1%;
 }
-/* line 15, ../scss/main.scss */
+/* line 17, ../scss/main.scss */
 body #content canvas {
   outline: none;
 }
