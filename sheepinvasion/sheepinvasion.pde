@@ -27,9 +27,7 @@ float money = 40;
 
 //Vektoren
 PShape towerBasic,towerMoney, towerPro, enemyBasic, enemyEvil;
-
-//Pixel
-PImage tileB, tileG, tileS, tileT, tileP, tileM;
+PShape tileB, tileG, tileS, tileT, tileP, tileM;
 
 //Levelvariable um die Karten zu Kontrollieren
 int score,lvl;
@@ -74,12 +72,12 @@ void setup() {
   restart(1);
   frameRate(60);
 
-  	tileB = loadImage("images/tiles/B.png");
-	tileG = loadImage("images/tiles/G.png");
-	tileS = loadImage("images/tiles/S.png");
-	tileT = loadImage("images/tiles/T.png");
-	tileP = loadImage("images/tiles/P.png");
-	tileM = loadImage("images/tiles/M.png");
+	tileB = loadShape("images/tiles/B.svg");
+	tileG = loadShape("images/tiles/G.svg");
+	tileS = loadShape("images/tiles/S.svg");
+	tileT = loadShape("images/tiles/T.svg");
+	tileP = loadShape("images/tiles/P.svg");
+	tileM = loadShape("images/tiles/M.svg");
 
   shapeMode(CENTER);
   towerBasic = loadShape("images/towerBasic.svg");
@@ -388,28 +386,30 @@ class Map {
 		mapArray[int(float(y)/tileSize)][int(float(x)/tileSize)] = tile;
 	}
 	void draw() { //could be coded much better but don’t know how to use string for loading PShape
+		shapeMode(CORNER);
 		for(int i=0; i<w; i++) {
 			for(int j=0; j<h; j++) {
 				if (at(i,j) == "B") {
-					image(tileB,i*tileSize,j*tileSize,tileSize,tileSize);
+					shape(tileB,i*tileSize,j*tileSize,tileSize,tileSize);
 				}
 				else if (at(i,j) == "G") {
-					image(tileG,i*tileSize,j*tileSize,tileSize,tileSize);
+					shape(tileG,i*tileSize,j*tileSize,tileSize,tileSize);
 				}
 				else if (at(i,j) == "S") {
-					image(tileS,i*tileSize,j*tileSize,tileSize,tileSize);
+					shape(tileS,i*tileSize,j*tileSize,tileSize,tileSize);
 				}
 				else if (at(i,j) == "T") {
-					image(tileT,i*tileSize,j*tileSize,tileSize,tileSize);
+					shape(tileT,i*tileSize,j*tileSize,tileSize,tileSize);
 				}
 				else if (at(i,j) == "P") {
-					image(tileP,i*tileSize,j*tileSize,tileSize,tileSize);
+					shape(tileP,i*tileSize,j*tileSize,tileSize,tileSize);
 				}
 				else if (at(i,j) == "M") {
-					image(tileM,i*tileSize,j*tileSize,tileSize,tileSize);
+					shape(tileM,i*tileSize,j*tileSize,tileSize,tileSize);
 				}
 			}
 		}
+	shapeMode(CENTER);
 	}
 };
 
@@ -421,7 +421,7 @@ class Shot {
 
 	Shot (float _x, float j, int _r, color _c) {
 		x=_x;
-		y=((j+1)*100-65)*scaleFactor;
+		y=((j+1)*100-60)*scaleFactor;
 		r=_r;
 		c=_c;
 	}

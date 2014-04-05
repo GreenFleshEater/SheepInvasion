@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 17.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100"
+	 enable-background="new 0 0 100 100" xml:space="preserve">
+<title>Slice 1</title>
+<description>Created with Sketch (http://www.bohemiancoding.com/sketch)</description>
+<g id="Page-1" sketch:type="MSPage">
+	<g id="Tile-active-TowerMoney" sketch:type="MSShapeGroup">
+		<rect x="0.5" y="0.5" fill="#2F3218" width="99" height="99"/>
+		<path fill="#171C15" d="M99,1v98H1V1H99 M100,0H0v100h100V0L100,0z"/>
+	</g>
+	<g id="towerMoney" transform="translate(25.000000, 39.500000)" sketch:type="MSLayerGroup">
+		<path id="Shape" sketch:type="MSShapeGroup" fill="#E0C524" d="M40,48l10-10V9H40V48z"/>
+		<path id="Shape_1_" sketch:type="MSShapeGroup" fill="#FFEB2E" d="M40,19H0L10,9h40L40,19z"/>
+		<rect id="Rectangle" y="19" sketch:type="MSShapeGroup" fill="#BCAA24" width="40" height="29">
+		</rect>
+		<path id="Shape_2_" sketch:type="MSShapeGroup" fill="#FFEB2E" d="M39.3,13l-2,2l-24.6-2c0-7.3,6-13.3,13.3-13.3
+			C33.3-0.3,39.3,5.7,39.3,13L39.3,13z"/>
+		<path id="Shape_3_" sketch:type="MSShapeGroup" fill="#BCAA24" d="M37.3,15H10.7c0-7.3,6-13.3,13.3-13.3
+			C31.3,1.7,37.3,7.7,37.3,15L37.3,15z"/>
+	</g>
+</g>
+</svg>
