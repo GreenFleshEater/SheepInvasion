@@ -9,9 +9,6 @@ float screenLeftX, screenTopY;
 //integer für schleifen
 int i, j;
 
-//tile size
-int tileSize = 100;
-
 //timer für schüsse und gegner
 float shotTimer, proShotTimer, enemyTimer;
 
@@ -46,6 +43,10 @@ int gameState;
 
 PImage backgroundImg;
 
+float aspectRatio=9/7, scaleFactor;
+
+float tileSize;
+
 void setup() {
   //Lade Spielmusik
   /*minim = new Minim (this);
@@ -59,7 +60,17 @@ void setup() {
   moneytower = minim.loadSnippet ("sounds/moneytower.wav");
   player.play ();
   player.loop ();*/
-  size(window.innerWidth, window.innerHeight); 
+  size(window.innerWidth, window.innerHeight);
+
+  if(window.innerWidth/window.innerHeight > aspectRatio) {
+  	scaleFactor = window.innerHeight/700;
+  }
+  else {
+  	scaleFactor = window.innerWidth/900;
+  }
+
+  tileSize = 100*scaleFactor;
+
   restart(1);
   frameRate(60);
 
@@ -284,15 +295,15 @@ void drawText() {
 
 // Malt die Tower für ein besseres Verständnis während des Kaufvorgangs
 void towerDraw(float towerX1,float towerY1){
-	shape(towerBasic,towerX1,towerY1,50,75);
+	shape(towerBasic,towerX1,towerY1,50*scaleFactor,75*scaleFactor);
 }
 
 void moneytowerDraw(float moneytowerX1,float moneytowerY1){
-	shape(towerMoney,moneytowerX1,moneytowerY1,50,50);
+	shape(towerMoney,moneytowerX1,moneytowerY1,50*scaleFactor,50*scaleFactor);
 }
 
 void protowerDraw(float protowerX1,float protowerY1){
-	shape(towerPro,protowerX1,protowerY1,50,75);
+	shape(towerPro,protowerX1,protowerY1,50*scaleFactor,75*scaleFactor);
 }
 // Es wird überprüft wo ein Geldturm auf dem Feld steht. Existiert ein Turm, wird Geld generiert.
 void generateMoney() {
@@ -307,11 +318,14 @@ void generateMoney() {
 
 class Map {
 	int w, h;
+	//float tileSize;
 	char[][] mapArray, level1, level2, level3;
 	
 	Map (int lvl) {
 		w = 9;
 		h = 7;
+
+		//float tileSize = 100*scaleFactor;
 		//Level
 		level1 = {
 				{"B","B","B","B","B","B","B","B","B"},
@@ -407,13 +421,13 @@ class Shot {
 
 	Shot (float _x, float j, int _r, color _c) {
 		x=_x;
-		y=(j+1)*100-65;
+		y=((j+1)*100-65)*scaleFactor;
 		r=_r;
 		c=_c;
 	}
 // Der Schuss wird über das feld Bewegt.
 	void move() {
-		x+=300/frameRate;
+		x+=300*scaleFactor/frameRate;
 	}
 // Es wird geprüft ob der Schuss das Spielfeld verlassen hat.
 	boolean fail() {
@@ -438,7 +452,7 @@ void addShots() {
       for (j = 0; j < map.h; j++) {
         if (map.at(i,j) == "T"){
           shots.add(
-            new Shot((i+1)*100-28,j, 3, #2aff00)
+            new Shot(((i+1)*100-28)*scaleFactor,j, 3*scaleFactor, #2aff00)
             );
           // shot.setGain(-15);
           // shot.play(0);
@@ -455,7 +469,7 @@ void addProShots() {
 			for (j = 0; j < map.h; j++) {
 				if (map.at(i,j) == "P"){
 					shots.add(
-						new Shot((i+1)*100-24,j, 4, #00e0ff)
+						new Shot(((i+1)*100-24)*scaleFactor,j, 4*scaleFactor, #00e0ff)
 						);
 					// proshot.setGain(-25);
 					// proshot.play(0);
@@ -480,12 +494,12 @@ void moveShots() {
 class Enemy {
   float x,y,yWiggle,health;
   int typ;
-  float speed=(random(20,25));
+  float speed=(random(20,25))*scaleFactor;
   float time=random(0,10); //time startet an zufälligem Punkt damit nicht alle synchron laufen
 
   Enemy (float _x, float j, int _typ) {
     x=_x;
-    y=(j+1)*100-50;
+    y=((j+1)*100-50)*scaleFactor;
     yWiggle=y;
     typ=_typ;
 
@@ -501,11 +515,11 @@ class Enemy {
   void move() {
     x-=speed/frameRate;
     time+=1/frameRate;
-    yWiggle+=0.3*sin(time*15);
+    yWiggle+=0.3*sin(time*15)*scaleFactor;
 
 //Der Gegner wird verwundet wenn der Schuss trifft. Der Schuss wird dann aus dem Array entfernt.
     for (int i = 0; i < shots.size(); ++i) {
-      if (shots.get(i).x >= x-60 && shots.get(i).x <= x+60 && shots.get(i).y >= y-20 && shots.get(i).y <= y+20) {
+      if (shots.get(i).x >= x-(60*scaleFactor) && shots.get(i).x <= x+(60*scaleFactor) && shots.get(i).y >= y-(20*scaleFactor) && shots.get(i).y <= y+(20*scaleFactor)) {
         health -= 3;
         shots.remove(i);
         i--;
@@ -527,20 +541,20 @@ class Enemy {
   void run() {
     if (typ ==1) {
     noStroke();
-    shape(enemyBasic,x,yWiggle,112,75);
+    shape(enemyBasic,x,yWiggle,112*scaleFactor,75*scaleFactor);
     fill(0);
-    rect(x-112/2,y+40,102,5);
+    rect(x-(112/2*scaleFactor),y+(40*scaleFactor),102*scaleFactor,5*scaleFactor);
     fill(0,180,0);
-    rect(x-112/2+1,y+41,health/60*100,3);
+    rect(x-(112/2*scaleFactor)+1*scaleFactor,y+41*scaleFactor,health/60*100*scaleFactor,3*scaleFactor);
     }
 
     if (typ ==2) {
     noStroke();
-    shape(enemyEvil,x,yWiggle,112,75);
+    shape(enemyEvil,x,yWiggle,112*scaleFactor,75*scaleFactor);
     fill(0);
-    rect(x-112/2,y+40,102,7);
+    rect(x-(112/2*scaleFactor),y+(40*scaleFactor),102*scaleFactor,7*scaleFactor);
     fill(0,250,0);
-    rect(x-112/2+1,y+41,health/150*100,5);
+    rect(x-(112/2*scaleFactor)+1*scaleFactor,y+41*scaleFactor,health/150*100*scaleFactor,5*scaleFactor);
     }
 // Wenn einer der Gegner auf der linken Seite des Spielfeldes ankommt, ist das Spiel verloren
     if (x<=0) {
@@ -556,11 +570,11 @@ void spawnEnemies() {
 				if (map.at(i,j) == "S" && random(0,100)<=difficulty){
 					if(random(20,100)>=difficulty)
 						enemies.add(
-							new Enemy((i+1)*100+50,j, 1)
+							new Enemy(((i+1)*100+50)*scaleFactor,j, 1)
 							);
 					else {
 						enemies.add(
-							new Enemy((i+1)*100+50,j, 2)
+							new Enemy(((i+1)*100+50)*scaleFactor,j, 2)
 							);
 					}
 				}
@@ -619,7 +633,7 @@ void draw() {
   	fill(#9b59b6);
   	text("Abbruch mit a", 200/2+25,height-100+33);
   	towerDraw(mouseX,mouseY);
-  	if (keyPressed && key=="a") {
+  	if (keyPressed && key=='a') {
   		gameState = GAMERUNNING;
   	}
   }
@@ -632,7 +646,7 @@ void draw() {
   	fill(#f1c40f);
   	text("Abbruch mit a", 200/2+280,height-100+33);
   	moneytowerDraw(mouseX,mouseY);
-  	if (keyPressed && key=="a") {
+  	if (keyPressed && key=='a') {
   		gameState = GAMERUNNING;
   	}
   }
@@ -645,7 +659,7 @@ void draw() {
   	fill(#9b59b6);
   	text("Abbruch mit a", 200/2+545,height-100+33);
   	protowerDraw(mouseX,mouseY);
-  	if (keyPressed && key=="a") {
+  	if (keyPressed && key=='a') {
   		gameState = GAMERUNNING;
   	}
   }
@@ -665,7 +679,7 @@ void draw() {
     moveShots();
   }
 
-  else if (keyPressed && key=="r") {
+  else if (keyPressed && key=='r') {
     if (gameState==GAMEWAIT) gameState=GAMERUNNING;
     else if (gameState==GAMEOVER || gameState==GAMEWON) restart(1);
   }
